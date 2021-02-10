@@ -371,7 +371,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.vepay.cf/backend/commongateway.git",
-                "reference": "1ad8c38cc8c8bbce8d5b6453ef258ee05268933e"
+                "reference": "23beccc5c80cb01c12c3973d59f9a1404cfd0040"
             },
             "require": {
                 "ext-json": "*",
@@ -406,7 +406,7 @@
                 }
             ],
             "description": "PHP common gateway library for payment systems",
-            "time": "2021-02-09T13:38:32+00:00"
+            "time": "2021-02-10T08:16:37+00:00"
         }
     ],
     "packages-dev": [
