@@ -4,7 +4,7 @@ namespace Vepay\Cauri\Tests\Mock\Response;
 
 use Vepay\Gateway\Tests\Mock\Response\MockResponseInterface;
 
-class MockCreatePayinResponse implements MockResponseInterface
+class MockPayinCreateResponse implements MockResponseInterface
 {
     public function getStatus(): ?string
     {
@@ -56,7 +56,7 @@ class MockCreatePayinResponse implements MockResponseInterface
             "permanentToken" => "d5c83ed1575b6fa30e8b977016c75a5417c5c9d34930d7076e9e36f374577345",
             "recurring" => [
                 "frequency" => 1,
-                 "endsAt" => "2015­10­22T11:49:23+03:00"
+                 "endsAt" => "20151022T11:49:23+03:00"
             ]
         ];
     }

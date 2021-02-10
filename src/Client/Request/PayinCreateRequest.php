@@ -1,0 +1,46 @@
+<?php
+
+namespace Vepay\Cauri\Client\Request;
+
+use Vepay\Cauri\Client\Middleware\PostSign;
+use Vepay\Gateway\Client\Request\Request;
+use Vepay\Gateway\Client\Validator\Validator;
+
+class PayinCreateRequest extends Request
+{
+    protected string $endpoint = 'v1/card/process';
+    protected string $method = 'POST';
+
+    public function getParametersValidator(): Validator
+    {
+        return (new Validator)
+            ->set('project', Validator::REQUIRED)
+            ->set('user', Validator::REQUIRED)
+            ->set('card_token', Validator::OPTIONAL)
+            ->set('card', Validator::OPTIONAL)
+            ->set('price', Validator::REQUIRED)
+            ->set('currency', Validator::REQUIRED)
+            ->set('order_id', Validator::OPTIONAL)
+            ->set('description', Validator::REQUIRED)
+            ->set('3ds', Validator::OPTIONAL)
+            ->set('acs_return_url', Validator::OPTIONAL)
+            ->set('remember', Validator::OPTIONAL)
+            ->set('verify_card', Validator::OPTIONAL)
+            ->set('recurring', Validator::OPTIONAL)
+            ->set('recurring_interval', Validator::OPTIONAL)
+            ->set('recurring_trial', Validator::OPTIONAL)
+            ->set('attr_*', Validator::OPTIONAL);
+        // signature - will generate and add in Middleware PostSign
+    }
+
+    public function getOptionsValidator(): Validator
+    {
+        return (new Validator)
+            ->set('private_key', Validator::REQUIRED);
+    }
+
+    public function getMiddlewares(): array
+    {
+        return [new PostSign];
+    }
+}
