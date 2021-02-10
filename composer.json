@@ -3,7 +3,7 @@
     "type": "library",
     "description": "PHP library gateway for payment system Cauri",
     "license": "MIT",
-    "homepage": "https://docs.pa.cauri.com/api/",
+    "homepage": "https://cauri.com/",
     "authors": [
         {"name": "Dzmitry Kuzmin", "email": "d4.kuzmin@itransition.com"},
         {"name": "Yauhen Kuzob", "email": "e.kuzob@itransition.com"}
@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Vepay\\Gratapay\\": "src/"
+            "Vepay\\Cauri\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Vepay\\Gratapay\\Tests\\": "tests/",
+            "Vepay\\Cauri\\Tests\\": "tests/",
             "Vepay\\Gateway\\Tests\\": "vendor/vepay/commongateway/tests/"
         }
     }
