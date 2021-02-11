@@ -10,6 +10,7 @@ use Vepay\Cauri\Tests\Mock\Response\MockCardAuthenticateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockCardManualRecurringResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockCardTokenCreateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockPayinCreateResponse;
+use Vepay\Cauri\Tests\Mock\Response\MockTransactionCreateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockTransactionPaymentReverseResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockUserRecurringCancelResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockUserRecurringSettingsChangeResponse;
@@ -133,6 +134,21 @@ class MocksResourceOperationsRequestTest extends TestCase
         $response = new MockTransactionPaymentReverseResponse();
         $transaction->mock('paymentReverse', $response);
         $receivedResponse = $transaction->paymentReverse();
+
+        $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
+        $this->assertSame($response, $receivedResponse);
+        $this->assertEquals(201, $receivedResponse->getStatus());
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#create-new-transaction
+     */
+    public function testMockTransactionCreate(): void
+    {
+        $transaction = new Transaction();
+        $response = new MockTransactionCreateResponse();
+        $transaction->mock('create', $response);
+        $receivedResponse = $transaction->create();
 
         $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
         $this->assertSame($response, $receivedResponse);
