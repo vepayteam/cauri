@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Vepay\Cauri\Resource\Card;
 use Vepay\Cauri\Resource\User;
 use Vepay\Cauri\Tests\Mock\Response\MockCardAuthenticateResponse;
+use Vepay\Cauri\Tests\Mock\Response\MockCardManualRecurringResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockCardTokenCreateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockPayinCreateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockUserRecurringCancelResponse;
@@ -55,6 +56,21 @@ class MocksResourceOperationsRequestTest extends TestCase
         $response = new MockCardAuthenticateResponse();
         $card->mock('cardAuthenticate', $response);
         $receivedResponse = $card->cardAuthenticate();
+
+        $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
+        $this->assertSame($response, $receivedResponse);
+        $this->assertEquals(201, $receivedResponse->getStatus());
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#manual-recurring
+     */
+    public function testMockCardManualRecurring(): void
+    {
+        $card = new Card();
+        $response = new MockCardManualRecurringResponse();
+        $card->mock('manualRecurring', $response);
+        $receivedResponse = $card->manualRecurring();
 
         $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
         $this->assertSame($response, $receivedResponse);

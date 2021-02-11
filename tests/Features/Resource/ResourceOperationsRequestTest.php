@@ -46,7 +46,7 @@ class ResourceOperationsRequestTest extends TestCase
     /**
      * Documentation: https://docs.pa.cauri.com/api/#change-recurring-settings
      *
-     * @depends testUserResolveCreate
+     * @depends testUserResolve
      *
      * @param array $userResolve
      * @throws Exception
@@ -72,7 +72,7 @@ class ResourceOperationsRequestTest extends TestCase
     /**
      * Documentation: https://docs.pa.cauri.com/api/#cancel-recurring
      *
-     * @depends testUserResolveCreate
+     * @depends testUserResolve
      *
      * @param array $userResolve
      * @throws Exception
@@ -95,7 +95,7 @@ class ResourceOperationsRequestTest extends TestCase
     /**
      * Documentation: https://docs.pa.cauri.com/api/#create-a-token
      *
-     * @depends testUserResolveCreate
+     * @depends testUserResolve
      *
      * @return array
      * @throws Exception
@@ -120,7 +120,7 @@ class ResourceOperationsRequestTest extends TestCase
     /**
      * Documentation: https://docs.pa.cauri.com/api/#charge-a-card
      *
-     * @depends testUserResolveCreate
+     * @depends testUserResolve
      * @depends testCardTokenCreate
      *
      * @param array $userResolve
@@ -198,7 +198,7 @@ class ResourceOperationsRequestTest extends TestCase
     /**
      * Documentation: https://docs.pa.cauri.com/api/#authenticate-a-card
      *
-     * @depends testUserResolveCreate
+     * @depends testUserResolve
      * @depends testPayinWithCardTokenCreate
      *
      * @param array $userResolve
@@ -212,6 +212,33 @@ class ResourceOperationsRequestTest extends TestCase
                 'project' => $userResolve['projectId'],
                 'PaRes' => $payin['acs']['parameters']['PaReq'],
                 'MD' => $payin['acs']['parameters']['MD'],
+            ],
+            [
+                'private_key' => Config::getInstance()->tests['private_key'],
+            ]
+        );
+
+        $this->assertEquals(201, $response->getStatus());
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#manual-recurring
+     *
+     * @depends testUserResolve
+     *
+     * @param array $userResolve
+     * @throws Exception
+     */
+    public function testCardManualRecurring(array $userResolve): void
+    {
+        $response = (new Card())->manualRecurring(
+            [
+                'project' => $userResolve['projectId'],
+                'user' => $userResolve['id'],
+                'price' => 5.99,
+                'currency' => 'USD',
+                'order_id' => '12345',
+                'description' => 'My custom description.',
             ],
             [
                 'private_key' => Config::getInstance()->tests['private_key'],

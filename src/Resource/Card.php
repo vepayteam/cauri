@@ -4,6 +4,7 @@ namespace Vepay\Cauri\Resource;
 
 use Exception;
 use Vepay\Cauri\Client\ClientConfigurator;
+use Vepay\Cauri\Client\Request\CardManualRecurringRequest;
 use Vepay\Cauri\Client\Request\CardTokenCreateRequest;
 use Vepay\Cauri\Client\Request\CardAuthenticateRequest;
 use Vepay\Gateway\Client\Response\ResponseInterface;
@@ -45,6 +46,23 @@ class Card extends AbstractResource
     protected function authenticate(array $parameters, array $options = []): ResponseInterface
     {
         $request = new CardAuthenticateRequest($parameters, $options);
+
+        return ClientConfigurator
+            ::get()
+            ->send($request);
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#manual-recurring
+     *
+     * @param array $parameters
+     * @param array $options
+     * @return ResponseInterface
+     * @throws Exception
+     */
+    protected function manualRecurring(array $parameters, array $options = []): ResponseInterface
+    {
+        $request = new CardManualRecurringRequest($parameters, $options);
 
         return ClientConfigurator
             ::get()
