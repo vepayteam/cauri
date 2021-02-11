@@ -6,6 +6,7 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use Vepay\Cauri\Resource\Card;
 use Vepay\Cauri\Resource\Payin;
+use Vepay\Cauri\Resource\Transaction;
 use Vepay\Cauri\Resource\User;
 use Vepay\Cauri\Tests\InitializationTrait;
 use Vepay\Gateway\Config;
@@ -239,6 +240,31 @@ class ResourceOperationsRequestTest extends TestCase
                 'currency' => 'USD',
                 'order_id' => '12345',
                 'description' => 'My custom description.',
+            ],
+            [
+                'private_key' => Config::getInstance()->tests['private_key'],
+            ]
+        );
+
+        $this->assertEquals(201, $response->getStatus());
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#reverse-a-payment
+     *
+     * @depends testUserResolve
+     *
+     * @param array $userResolve
+     * @throws Exception
+     */
+    public function testTransactionPaymentReverse(array $userResolve): void
+    {
+        $response = (new Transaction())->paymentReverse(
+            [
+                'project' => $userResolve['projectId'],
+                'id' => 122612357431149845,
+                'amount' => 0.01,
+                'comment' => 'Suspected fraud.',
             ],
             [
                 'private_key' => Config::getInstance()->tests['private_key'],
