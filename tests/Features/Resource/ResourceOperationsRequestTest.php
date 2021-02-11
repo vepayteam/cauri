@@ -43,6 +43,32 @@ class ResourceOperationsRequestTest extends TestCase
     }
 
     /**
+     * Documentation: https://docs.pa.cauri.com/api/#change-recurring-settings
+     *
+     * @depends testUserResolveCreate
+     *
+     * @param array $user
+     * @throws Exception
+     */
+    public function testUserChangeRecurringSettings(array $user): void
+    {
+        $response = (new Payin())->changeRecurringSettings(
+            [
+                'project' => $user['projectId'],
+                'user' => $user['id'],
+                'interval' => '30',
+                'price' => 3.50,
+                'currency' => 'USD',
+            ],
+            [
+                'private_key' => Config::getInstance()->tests['private_key'],
+            ]
+        );
+
+        $this->assertEquals(201, $response->getStatus());
+    }
+
+    /**
      * Documentation: https://docs.pa.cauri.com/api/#create-a-token
      *
      * @depends testUserResolveCreate
