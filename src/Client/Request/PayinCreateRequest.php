@@ -6,11 +6,20 @@ use Vepay\Cauri\Client\Middleware\PostSign;
 use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
 
+/**
+ * Class PayinCreateRequest
+ * @package Vepay\Cauri\Client\Request
+ */
 class PayinCreateRequest extends Request
 {
     protected string $endpoint = 'v1/card/process';
     protected string $method = 'POST';
 
+    /**+
+     * Documentation: https://docs.pa.cauri.com/api/#charge-a-card
+     *
+     * @return Validator
+     */
     public function getParametersValidator(): Validator
     {
         return (new Validator)
@@ -33,12 +42,18 @@ class PayinCreateRequest extends Request
         // signature - will generate and add in Middleware PostSign
     }
 
+    /**
+     * @return Validator
+     */
     public function getOptionsValidator(): Validator
     {
         return (new Validator)
             ->set('private_key', Validator::REQUIRED);
     }
 
+    /**
+     * @return array
+     */
     public function getMiddlewares(): array
     {
         return [new PostSign];

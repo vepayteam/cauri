@@ -7,6 +7,10 @@ use Vepay\Cauri\Client\Request\PayinCreateRequest;
 use Vepay\Gateway\Client\Response\ResponseInterface;
 use Vepay\Gateway\Resource\MockBehavior;
 
+/**
+ * Class Payin
+ * @package Vepay\Cauri\Resource
+ */
 class Payin extends AbstractResource
 {
     use MockBehavior;

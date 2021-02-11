@@ -8,13 +8,24 @@ use Psr\Http\Message\RequestInterface;
 use Vepay\Gateway\Client\Middleware\MiddlewareInterface;
 use Vepay\Gateway\Config;
 
+/**
+ * Class PostSign
+ * @package Vepay\Cauri\Client\Middleware
+ */
 class PostSign implements MiddlewareInterface
 {
+    /**
+     * @return string
+     */
     public function getName(): string
     {
         return 'postSign';
     }
 
+    /**
+     * @param callable $handler
+     * @return Closure
+     */
     public function __invoke(callable $handler): Closure
     {
         return function (RequestInterface $request, array $options) use ($handler) {
