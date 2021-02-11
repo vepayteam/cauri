@@ -273,4 +273,33 @@ class ResourceOperationsRequestTest extends TestCase
 
         $this->assertEquals(201, $response->getStatus());
     }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#create-new-transaction
+     *
+     * @depends testUserResolve
+     *
+     * @param array $userResolve
+     * @throws Exception
+     */
+    public function testTransactionCreate(array $userResolve): void
+    {
+        $response = (new Transaction())->create(
+            [
+                'project' => $userResolve['projectId'],
+                'user' => $userResolve['id'],
+                'payment_method' => 'web_money_wmz',
+                'price' => 5.99,
+                'currency' => 'USD',
+                'description' => 'Test',
+                'success_url' => 'https://example.com',
+                'fail_url' => 'https://example.com',
+            ],
+            [
+                'private_key' => Config::getInstance()->tests['private_key'],
+            ]
+        );
+
+        $this->assertEquals(201, $response->getStatus());
+    }
 }
