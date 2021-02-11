@@ -7,6 +7,7 @@ use Vepay\Cauri\Resource\CardToken;
 use Vepay\Cauri\Resource\User;
 use Vepay\Cauri\Tests\Mock\Response\MockCardTokenCreateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockPayinCreateResponse;
+use Vepay\Cauri\Tests\Mock\Response\MockUserCancelRecurringResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockUserChangeRecurringSettingsResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockUserResolveResponse;
 use Vepay\Gateway\Client\Response\ResponseInterface;
@@ -68,6 +69,21 @@ class MocksResourceOperationsRequestTest extends TestCase
         $response = new MockUserChangeRecurringSettingsResponse();
         $user->mock('changeRecurringSettings', $response);
         $receivedResponse = $user->changeRecurringSettings();
+
+        $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
+        $this->assertSame($response, $receivedResponse);
+        $this->assertEquals(201, $receivedResponse->getStatus());
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#cancel-recurring
+     */
+    public function testMockUserCancelRecurring(): void
+    {
+        $user = new User();
+        $response = new MockUserCancelRecurringResponse();
+        $user->mock('cancelRecurring', $response);
+        $receivedResponse = $user->cancelRecurring();
 
         $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
         $this->assertSame($response, $receivedResponse);

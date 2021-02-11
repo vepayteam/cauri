@@ -6,6 +6,7 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use Vepay\Cauri\Resource\CardToken;
 use Vepay\Cauri\Resource\Payin;
+use Vepay\Cauri\Resource\User;
 use Vepay\Cauri\Tests\InitializationTrait;
 use Vepay\Gateway\Config;
 
@@ -22,7 +23,7 @@ class ResourceOperationsRequestTest extends TestCase
     public function testUserResolveCreate(): array
     {
         $projectId = time();
-        $response = (new Payin())->create(
+        $response = (new User())->create(
             [
                 'project' => $projectId,
                 'identifier' => 1,
@@ -47,18 +48,41 @@ class ResourceOperationsRequestTest extends TestCase
      *
      * @depends testUserResolveCreate
      *
-     * @param array $user
+     * @param array $userResolve
      * @throws Exception
      */
-    public function testUserChangeRecurringSettings(array $user): void
+    public function testUserChangeRecurringSettings(array $userResolve): void
     {
-        $response = (new Payin())->changeRecurringSettings(
+        $response = (new User())->changeRecurringSettings(
             [
-                'project' => $user['projectId'],
-                'user' => $user['id'],
+                'project' => $userResolve['projectId'],
+                'user' => $userResolve['id'],
                 'interval' => '30',
                 'price' => 3.50,
                 'currency' => 'USD',
+            ],
+            [
+                'private_key' => Config::getInstance()->tests['private_key'],
+            ]
+        );
+
+        $this->assertEquals(201, $response->getStatus());
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#cancel-recurring
+     *
+     * @depends testUserResolveCreate
+     *
+     * @param array $userResolve
+     * @throws Exception
+     */
+    public function testUserCancelRecurring(array $userResolve): void
+    {
+        $response = (new User())->cancelRecurring(
+            [
+                'project' => $userResolve['projectId'],
+                'user' => $userResolve['id'],
             ],
             [
                 'private_key' => Config::getInstance()->tests['private_key'],
@@ -99,16 +123,16 @@ class ResourceOperationsRequestTest extends TestCase
      * @depends testCardTokenCreate
      * @depends testUserResolveCreate
      *
-     * @param array $user
+     * @param array $userResolve
      * @param array $cardToken
      * @throws Exception
      */
-    public function testPayinWithCardTokenCreate(array $user, array $cardToken): void
+    public function testPayinWithCardTokenCreate(array $userResolve, array $cardToken): void
     {
         $response = (new Payin())->create(
             [
-                'project' => $user['projectId'],
-                'user' => $user['id'],
+                'project' => $userResolve['projectId'],
+                'user' => $userResolve['id'],
                 'price' => '0.01',
                 'currency' => 'RUB',
                 'description' => 'Test Descr',

@@ -3,6 +3,7 @@
 namespace Vepay\Cauri\Resource;
 
 use Vepay\Cauri\Client\ClientConfigurator;
+use Vepay\Cauri\Client\Request\UserCancelRecurringRequest;
 use Vepay\Cauri\Client\Request\UserChangeRecurringSettingsRequest;
 use Vepay\Cauri\Client\Request\UserResolveRequest;
 use Vepay\Gateway\Client\Response\ResponseInterface;
@@ -44,6 +45,23 @@ class User extends AbstractResource
     protected function changeRecurringSettings(array $parameters, array $options): ResponseInterface
     {
         $request = new UserChangeRecurringSettingsRequest($parameters, $options);
+
+        return ClientConfigurator
+            ::get()
+            ->send($request);
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#cancel-recurring
+     *
+     * @param array $parameters
+     * @param array $options
+     * @return ResponseInterface
+     * @throws \Exception
+     */
+    protected function cancelRecurring(array $parameters, array $options): ResponseInterface
+    {
+        $request = new UserCancelRecurringRequest($parameters, $options);
 
         return ClientConfigurator
             ::get()
