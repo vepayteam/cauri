@@ -42,7 +42,7 @@ class User extends AbstractResource
      * @return ResponseInterface
      * @throws \Exception
      */
-    protected function changeRecurringSettings(array $parameters, array $options): ResponseInterface
+    protected function recurringSettingsChange(array $parameters, array $options): ResponseInterface
     {
         $request = new UserChangeRecurringSettingsRequest($parameters, $options);
 
@@ -59,7 +59,7 @@ class User extends AbstractResource
      * @return ResponseInterface
      * @throws \Exception
      */
-    protected function cancelRecurring(array $parameters, array $options): ResponseInterface
+    protected function recurringCancel(array $parameters, array $options): ResponseInterface
     {
         $request = new UserCancelRecurringRequest($parameters, $options);
 

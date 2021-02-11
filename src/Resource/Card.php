@@ -8,10 +8,10 @@ use Vepay\Gateway\Client\Response\ResponseInterface;
 use Vepay\Gateway\Resource\MockBehavior;
 
 /**
- * Class CardToken
+ * Class Card
  * @package Vepay\Cauri\Resource
  */
-class CardToken extends AbstractResource
+class Card extends AbstractResource
 {
     use MockBehavior;
 
@@ -23,7 +23,7 @@ class CardToken extends AbstractResource
      * @return ResponseInterface
      * @throws \Exception
      */
-    protected function create(array $parameters, array $options = []): ResponseInterface
+    protected function tokenCreate(array $parameters, array $options = []): ResponseInterface
     {
         $request = new CardTokenCreateRequest($parameters, $options);
 

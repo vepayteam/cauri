@@ -4,7 +4,7 @@ namespace Vepay\Cauri\Tests\Mock\Response;
 
 use Vepay\Gateway\Tests\Mock\Response\MockResponseInterface;
 
-class MockUserChangeRecurringSettingsResponse implements MockResponseInterface
+class MockUserRecurringCancelResponse implements MockResponseInterface
 {
     public function getStatus(): ?string
     {

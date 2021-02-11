@@ -3,12 +3,12 @@
 namespace Vepay\Cauri\Tests\Unit\Resource;
 
 use PHPUnit\Framework\TestCase;
-use Vepay\Cauri\Resource\CardToken;
+use Vepay\Cauri\Resource\Card;
 use Vepay\Cauri\Resource\User;
 use Vepay\Cauri\Tests\Mock\Response\MockCardTokenCreateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockPayinCreateResponse;
-use Vepay\Cauri\Tests\Mock\Response\MockUserCancelRecurringResponse;
-use Vepay\Cauri\Tests\Mock\Response\MockUserChangeRecurringSettingsResponse;
+use Vepay\Cauri\Tests\Mock\Response\MockUserRecurringCancelResponse;
+use Vepay\Cauri\Tests\Mock\Response\MockUserRecurringSettingsChangeResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockUserResolveResponse;
 use Vepay\Gateway\Client\Response\ResponseInterface;
 use Vepay\Cauri\Resource\Payin;
@@ -35,10 +35,10 @@ class MocksResourceOperationsRequestTest extends TestCase
      */
     public function testMockCardTokenCreate(): void
     {
-        $cardToken = new CardToken();
+        $card = new Card();
         $response = new MockCardTokenCreateResponse();
-        $cardToken->mock('create', $response);
-        $receivedResponse = $cardToken->create();
+        $card->mock('tokenCreate', $response);
+        $receivedResponse = $card->tokenCreate();
 
         $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
         $this->assertSame($response, $receivedResponse);
@@ -66,9 +66,9 @@ class MocksResourceOperationsRequestTest extends TestCase
     public function testMockUserChangeRecurringSettings(): void
     {
         $user = new User();
-        $response = new MockUserChangeRecurringSettingsResponse();
-        $user->mock('changeRecurringSettings', $response);
-        $receivedResponse = $user->changeRecurringSettings();
+        $response = new MockUserRecurringSettingsChangeResponse();
+        $user->mock('recurringSettingsChange', $response);
+        $receivedResponse = $user->recurringSettingsChange();
 
         $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
         $this->assertSame($response, $receivedResponse);
@@ -81,9 +81,9 @@ class MocksResourceOperationsRequestTest extends TestCase
     public function testMockUserCancelRecurring(): void
     {
         $user = new User();
-        $response = new MockUserCancelRecurringResponse();
-        $user->mock('cancelRecurring', $response);
-        $receivedResponse = $user->cancelRecurring();
+        $response = new MockUserRecurringCancelResponse();
+        $user->mock('recurringCancel', $response);
+        $receivedResponse = $user->recurringCancel();
 
         $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
         $this->assertSame($response, $receivedResponse);

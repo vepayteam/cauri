@@ -4,7 +4,7 @@ namespace Vepay\Cauri\Tests\Features\Resource;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
-use Vepay\Cauri\Resource\CardToken;
+use Vepay\Cauri\Resource\Card;
 use Vepay\Cauri\Resource\Payin;
 use Vepay\Cauri\Resource\User;
 use Vepay\Cauri\Tests\InitializationTrait;
@@ -20,10 +20,10 @@ class ResourceOperationsRequestTest extends TestCase
      * @return array
      * @throws Exception
      */
-    public function testUserResolveCreate(): array
+    public function testUserResolve(): array
     {
         $projectId = time();
-        $response = (new User())->create(
+        $response = (new User())->resolve(
             [
                 'project' => $projectId,
                 'identifier' => 1,
@@ -51,9 +51,9 @@ class ResourceOperationsRequestTest extends TestCase
      * @param array $userResolve
      * @throws Exception
      */
-    public function testUserChangeRecurringSettings(array $userResolve): void
+    public function testUserRecurringSettingsChange(array $userResolve): void
     {
-        $response = (new User())->changeRecurringSettings(
+        $response = (new User())->recurringSettingsChange(
             [
                 'project' => $userResolve['projectId'],
                 'user' => $userResolve['id'],
@@ -77,9 +77,9 @@ class ResourceOperationsRequestTest extends TestCase
      * @param array $userResolve
      * @throws Exception
      */
-    public function testUserCancelRecurring(array $userResolve): void
+    public function testUserRecurringCancel(array $userResolve): void
     {
-        $response = (new User())->cancelRecurring(
+        $response = (new User())->recurringCancel(
             [
                 'project' => $userResolve['projectId'],
                 'user' => $userResolve['id'],
@@ -102,7 +102,7 @@ class ResourceOperationsRequestTest extends TestCase
      */
     public function testCardTokenCreate(array $userResolve): array
     {
-        $response = (new CardToken())->create(
+        $response = (new Card())->tokenCreate(
             [
                 'project' => $userResolve['projectId'],
                 'number' => '5444870724493746',
