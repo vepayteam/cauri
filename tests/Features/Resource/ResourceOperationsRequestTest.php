@@ -105,7 +105,7 @@ class ResourceOperationsRequestTest extends TestCase
         $response = (new Card())->tokenCreate(
             [
                 'project' => $userResolve['projectId'],
-                'number' => '5444870724493746',
+                'number' => '4012001037141112',
                 'expiration_month' => '4',
                 'expiration_year' => '2022',
                 'security_code' => '123',
@@ -120,14 +120,15 @@ class ResourceOperationsRequestTest extends TestCase
     /**
      * Documentation: https://docs.pa.cauri.com/api/#charge-a-card
      *
-     * @depends testCardTokenCreate
      * @depends testUserResolveCreate
+     * @depends testCardTokenCreate
      *
      * @param array $userResolve
      * @param array $cardToken
+     * @return array
      * @throws Exception
      */
-    public function testPayinWithCardTokenCreate(array $userResolve, array $cardToken): void
+    public function testPayinWithCardTokenCreate(array $userResolve, array $cardToken): array
     {
         $response = (new Payin())->create(
             [
@@ -148,6 +149,8 @@ class ResourceOperationsRequestTest extends TestCase
         );
 
         $this->assertEquals(201, $response->getStatus());
+
+        return $response->getContent();
     }
 
     /**
@@ -183,6 +186,32 @@ class ResourceOperationsRequestTest extends TestCase
                 'attr_test2' => 'asd',
                 'attr_test3' => null,
                 'attr_test4' => 0,
+            ],
+            [
+                'private_key' => Config::getInstance()->tests['private_key'],
+            ]
+        );
+
+        $this->assertEquals(201, $response->getStatus());
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#authenticate-a-card
+     *
+     * @depends testUserResolveCreate
+     * @depends testPayinWithCardTokenCreate
+     *
+     * @param array $userResolve
+     * @param array $payin
+     * @throws Exception
+     */
+    public function testPayinCardAuthenticate(array $userResolve, array $payin): void
+    {
+        $response = (new Payin())->cardAuthenticate(
+            [
+                'project' => $userResolve['projectId'],
+                'PaRes' => $payin['acs']['parameters']['PaReq'],
+                'MD' => $payin['acs']['parameters']['MD'],
             ],
             [
                 'private_key' => Config::getInstance()->tests['private_key'],

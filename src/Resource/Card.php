@@ -2,6 +2,7 @@
 
 namespace Vepay\Cauri\Resource;
 
+use Exception;
 use Vepay\Cauri\Client\ClientConfigurator;
 use Vepay\Cauri\Client\Request\CardTokenCreateRequest;
 use Vepay\Gateway\Client\Response\ResponseInterface;
@@ -21,7 +22,7 @@ class Card extends AbstractResource
      * @param array $parameters
      * @param array $options
      * @return ResponseInterface
-     * @throws \Exception
+     * @throws Exception
      */
     protected function tokenCreate(array $parameters, array $options = []): ResponseInterface
     {
