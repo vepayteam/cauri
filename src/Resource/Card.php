@@ -5,6 +5,7 @@ namespace Vepay\Cauri\Resource;
 use Exception;
 use Vepay\Cauri\Client\ClientConfigurator;
 use Vepay\Cauri\Client\Request\CardTokenCreateRequest;
+use Vepay\Cauri\Client\Request\CardAuthenticateRequest;
 use Vepay\Gateway\Client\Response\ResponseInterface;
 use Vepay\Gateway\Resource\MockBehavior;
 
@@ -27,6 +28,23 @@ class Card extends AbstractResource
     protected function tokenCreate(array $parameters, array $options = []): ResponseInterface
     {
         $request = new CardTokenCreateRequest($parameters, $options);
+
+        return ClientConfigurator
+            ::get()
+            ->send($request);
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#authenticate-a-card
+     *
+     * @param array $parameters
+     * @param array $options
+     * @return ResponseInterface
+     * @throws Exception
+     */
+    protected function authenticate(array $parameters, array $options = []): ResponseInterface
+    {
+        $request = new CardAuthenticateRequest($parameters, $options);
 
         return ClientConfigurator
             ::get()

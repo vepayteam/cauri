@@ -5,7 +5,7 @@ namespace Vepay\Cauri\Tests\Unit\Resource;
 use PHPUnit\Framework\TestCase;
 use Vepay\Cauri\Resource\Card;
 use Vepay\Cauri\Resource\User;
-use Vepay\Cauri\Tests\Mock\Response\MockPayinCardAuthenticateResponse;
+use Vepay\Cauri\Tests\Mock\Response\MockCardAuthenticateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockCardTokenCreateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockPayinCreateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockUserRecurringCancelResponse;
@@ -49,12 +49,12 @@ class MocksResourceOperationsRequestTest extends TestCase
     /**
      * Documentation: https://docs.pa.cauri.com/api/#authenticate-a-card
      */
-    public function testMockPayinCardAuthenticate(): void
+    public function testMockCardAuthenticate(): void
     {
-        $payin = new Payin();
-        $response = new MockPayinCardAuthenticateResponse();
-        $payin->mock('cardAuthenticate', $response);
-        $receivedResponse = $payin->cardAuthenticate();
+        $card = new Card();
+        $response = new MockCardAuthenticateResponse();
+        $card->mock('cardAuthenticate', $response);
+        $receivedResponse = $card->cardAuthenticate();
 
         $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
         $this->assertSame($response, $receivedResponse);

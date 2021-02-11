@@ -205,9 +205,9 @@ class ResourceOperationsRequestTest extends TestCase
      * @param array $payin
      * @throws Exception
      */
-    public function testPayinCardAuthenticate(array $userResolve, array $payin): void
+    public function testCardAuthenticate(array $userResolve, array $payin): void
     {
-        $response = (new Payin())->cardAuthenticate(
+        $response = (new Card())->authenticate(
             [
                 'project' => $userResolve['projectId'],
                 'PaRes' => $payin['acs']['parameters']['PaReq'],

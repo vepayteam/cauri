@@ -10,7 +10,7 @@ use Vepay\Gateway\Client\Validator\Validator;
  * Class CardAuthenticateRequest
  * @package Vepay\Cauri\Client\Request
  */
-class PayinCardAuthenticateRequest extends Request
+class CardAuthenticateRequest extends Request
 {
     protected string $endpoint = 'v1/card/authenticate';
     protected string $method = 'POST';

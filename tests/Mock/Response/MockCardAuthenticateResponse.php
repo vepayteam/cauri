@@ -4,7 +4,7 @@ namespace Vepay\Cauri\Tests\Mock\Response;
 
 use Vepay\Gateway\Tests\Mock\Response\MockResponseInterface;
 
-class MockPayinCardAuthenticateResponse implements MockResponseInterface
+class MockCardAuthenticateResponse implements MockResponseInterface
 {
     public function getStatus(): ?string
     {
