@@ -3,6 +3,7 @@
 namespace Vepay\Cauri\Client\Request;
 
 use Vepay\Cauri\Client\Middleware\PostSign;
+use Vepay\Cauri\Client\Middleware\ProjectBody;
 use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
 
@@ -15,7 +16,7 @@ class PayinCreateRequest extends Request
     protected string $endpoint = 'v1/card/process';
     protected string $method = 'POST';
 
-    /**+
+    /**
      * Documentation: https://docs.pa.cauri.com/api/#charge-a-card
      *
      * @return Validator
@@ -23,7 +24,6 @@ class PayinCreateRequest extends Request
     public function getParametersValidator(): Validator
     {
         return (new Validator)
-            ->set('project', Validator::REQUIRED)
             ->set('user', Validator::REQUIRED)
             ->set('card_token', Validator::OPTIONAL)
             ->set('card', Validator::OPTIONAL)
@@ -39,6 +39,7 @@ class PayinCreateRequest extends Request
             ->set('recurring_interval', Validator::OPTIONAL)
             ->set('recurring_trial', Validator::OPTIONAL)
             ->set('attr_*', Validator::OPTIONAL);
+        // project - will add in Middleware ProjectBody
         // signature - will generate and add in Middleware PostSign
     }
 
@@ -48,6 +49,7 @@ class PayinCreateRequest extends Request
     public function getOptionsValidator(): Validator
     {
         return (new Validator)
+            ->set('public_key', Validator::REQUIRED)
             ->set('private_key', Validator::REQUIRED);
     }
 
@@ -56,6 +58,6 @@ class PayinCreateRequest extends Request
      */
     public function getMiddlewares(): array
     {
-        return [new PostSign];
+        return [new ProjectBody, new PostSign];
     }
 }

@@ -8,7 +8,7 @@ class MockTransactionCreateResponse implements MockResponseInterface
 {
     public function getStatus(): ?string
     {
-        return 201;
+        return 200;
     }
 
     public function getContent(): array
