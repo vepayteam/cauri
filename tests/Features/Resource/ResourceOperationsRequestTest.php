@@ -90,17 +90,22 @@ class ResourceOperationsRequestTest extends TestCase
      */
     public function testUserRecurringCancel(array $userResolve): void
     {
-        $response = (new User())->recurringCancel(
-            [
-                'project' => $userResolve['projectId'],
-                'user' => $userResolve['id'],
-            ],
-            [
-                'private_key' => Config::getInstance()->tests['private_key'],
-            ]
-        );
+        try {
+            $response = (new User())->recurringCancel(
+                [
+                    'user' => $userResolve['id'],
+                ],
+                [
+                    'public_key' => Config::getInstance()->tests['public_key'],
+                    'private_key' => Config::getInstance()->tests['private_key'],
+                ]
+            );
 
-        $this->assertEquals(201, $response->getStatus());
+            $this->assertEquals(200, $response->getStatus());
+        } catch (Exception $exception) {
+            $this->assertEquals(403, $exception->getCode());
+            $this->assertStringContainsString('Recurring is disabled for requested user.', $exception->getMessage());
+        }
     }
 
     /**

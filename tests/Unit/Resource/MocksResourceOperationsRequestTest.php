@@ -123,7 +123,7 @@ class MocksResourceOperationsRequestTest extends TestCase
 
         $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
         $this->assertSame($response, $receivedResponse);
-        $this->assertEquals(201, $receivedResponse->getStatus());
+        $this->assertEquals(200, $receivedResponse->getStatus());
     }
 
     /**

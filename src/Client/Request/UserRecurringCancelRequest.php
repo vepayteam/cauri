@@ -3,6 +3,7 @@
 namespace Vepay\Cauri\Client\Request;
 
 use Vepay\Cauri\Client\Middleware\PostSign;
+use Vepay\Cauri\Client\Middleware\Project;
 use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
 
@@ -23,8 +24,8 @@ class UserRecurringCancelRequest extends Request
     public function getParametersValidator(): Validator
     {
         return (new Validator)
-            ->set('project', Validator::REQUIRED)
             ->set('user', Validator::REQUIRED);
+        // project - will add in Middleware Project
         // signature - will generate and add in Middleware PostSign
     }
 
@@ -34,6 +35,7 @@ class UserRecurringCancelRequest extends Request
     public function getOptionsValidator(): Validator
     {
         return (new Validator)
+            ->set('public_key', Validator::REQUIRED)
             ->set('private_key', Validator::REQUIRED);
     }
 
@@ -42,6 +44,6 @@ class UserRecurringCancelRequest extends Request
      */
     public function getMiddlewares(): array
     {
-        return [new PostSign];
+        return [new Project, new PostSign];
     }
 }
