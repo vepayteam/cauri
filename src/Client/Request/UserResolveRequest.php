@@ -3,7 +3,7 @@
 namespace Vepay\Cauri\Client\Request;
 
 use Vepay\Cauri\Client\Middleware\PostSign;
-use Vepay\Cauri\Client\Middleware\Project;
+use Vepay\Cauri\Client\Middleware\ProjectBody;
 use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
 
@@ -31,7 +31,7 @@ class UserResolveRequest extends Request
             ->set('locale', Validator::OPTIONAL)
             ->set('ip', Validator::REQUIRED)
             ->set('ua', Validator::OPTIONAL);
-        // project - will add in Middleware Project
+        // project - will add in Middleware ProjectBody
         // signature - will generate and add in Middleware PostSign
     }
 
@@ -50,6 +50,6 @@ class UserResolveRequest extends Request
      */
     public function getMiddlewares(): array
     {
-        return [new Project, new PostSign];
+        return [new ProjectBody, new PostSign];
     }
 }

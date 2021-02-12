@@ -9,10 +9,10 @@ use Vepay\Gateway\Client\Middleware\MiddlewareInterface;
 use Vepay\Gateway\Config;
 
 /**
- * Class Project
+ * Class ProjectBody
  * @package Vepay\Cauri\Client\Middleware
  */
-class Project implements MiddlewareInterface
+class ProjectBody implements MiddlewareInterface
 {
     /**
      * @return string

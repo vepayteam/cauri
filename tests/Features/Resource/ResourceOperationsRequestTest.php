@@ -120,15 +120,17 @@ class ResourceOperationsRequestTest extends TestCase
     {
         $response = (new Card())->tokenCreate(
             [
-                'project' => $userResolve['projectId'],
                 'number' => '4012001037141112',
                 'expiration_month' => '4',
                 'expiration_year' => '2022',
                 'security_code' => '123',
             ],
+            [
+                'public_key' => Config::getInstance()->tests['public_key'],
+            ]
         );
 
-        $this->assertEquals(201, $response->getStatus());
+        $this->assertEquals(200, $response->getStatus());
 
         return ['projectId' => $userResolve['projectId'],  'id' => $response->getContent()['id']];
     }

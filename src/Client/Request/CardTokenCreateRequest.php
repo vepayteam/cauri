@@ -2,6 +2,7 @@
 
 namespace Vepay\Cauri\Client\Request;
 
+use Vepay\Cauri\Client\Middleware\ProjectQuery;
 use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
 
@@ -22,12 +23,12 @@ class CardTokenCreateRequest extends Request
     public function getParametersValidator(): Validator
     {
         return (new Validator)
-            ->set('project', Validator::REQUIRED)
             ->set('number', Validator::REQUIRED)
             ->set('expiration_month', Validator::REQUIRED)
             ->set('expiration_year', Validator::REQUIRED)
             ->set('security_code', Validator::REQUIRED)
             ->set('callback', Validator::OPTIONAL);
+        // project - will add in Middleware ProjectQuery
     }
 
     /**
@@ -35,6 +36,15 @@ class CardTokenCreateRequest extends Request
      */
     public function getOptionsValidator(): Validator
     {
-        return (new Validator);
+        return (new Validator)
+            ->set('public_key', Validator::REQUIRED);
+    }
+
+    /**
+     * @return array
+     */
+    public function getMiddlewares(): array
+    {
+        return [new ProjectQuery];
     }
 }
