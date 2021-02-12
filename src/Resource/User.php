@@ -3,8 +3,8 @@
 namespace Vepay\Cauri\Resource;
 
 use Vepay\Cauri\Client\ClientConfigurator;
-use Vepay\Cauri\Client\Request\UserCancelRecurringRequest;
-use Vepay\Cauri\Client\Request\UserChangeRecurringSettingsRequest;
+use Vepay\Cauri\Client\Request\UserRecurringCancelRequest;
+use Vepay\Cauri\Client\Request\UserRecurringSettingsChangeRequest;
 use Vepay\Cauri\Client\Request\UserResolveRequest;
 use Vepay\Gateway\Client\Response\ResponseInterface;
 use Vepay\Gateway\Resource\MockBehavior;
@@ -44,7 +44,7 @@ class User extends AbstractResource
      */
     protected function recurringSettingsChange(array $parameters, array $options): ResponseInterface
     {
-        $request = new UserChangeRecurringSettingsRequest($parameters, $options);
+        $request = new UserRecurringSettingsChangeRequest($parameters, $options);
 
         return ClientConfigurator
             ::get()
@@ -61,7 +61,7 @@ class User extends AbstractResource
      */
     protected function recurringCancel(array $parameters, array $options): ResponseInterface
     {
-        $request = new UserCancelRecurringRequest($parameters, $options);
+        $request = new UserRecurringCancelRequest($parameters, $options);
 
         return ClientConfigurator
             ::get()

@@ -7,16 +7,16 @@ use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
 
 /**
- * Class UserChangeRecurringSettingsRequest
+ * Class UserRecurringCancelRequest
  * @package Vepay\Cauri\Client\Request
  */
-class UserChangeRecurringSettingsRequest extends Request
+class UserRecurringCancelRequest extends Request
 {
-    protected string $endpoint = 'v1/user/changeRecurring';
+    protected string $endpoint = 'v1/user/cancelRecurring';
     protected string $method = 'POST';
 
     /**
-     * Documentation: https://docs.pa.cauri.com/api/#change-recurring-settings
+     * Documentation: https://docs.pa.cauri.com/api/#cancel-recurring
      *
      * @return Validator
      */
@@ -24,10 +24,7 @@ class UserChangeRecurringSettingsRequest extends Request
     {
         return (new Validator)
             ->set('project', Validator::REQUIRED)
-            ->set('user', Validator::REQUIRED)
-            ->set('interval', Validator::OPTIONAL)
-            ->set('price', Validator::OPTIONAL)
-            ->set('currency', Validator::OPTIONAL);
+            ->set('user', Validator::REQUIRED);
         // signature - will generate and add in Middleware PostSign
     }
 

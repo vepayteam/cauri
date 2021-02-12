@@ -57,8 +57,8 @@ class MocksResourceOperationsRequestTest extends TestCase
     {
         $card = new Card();
         $response = new MockCardAuthenticateResponse();
-        $card->mock('cardAuthenticate', $response);
-        $receivedResponse = $card->cardAuthenticate();
+        $card->mock('authenticate', $response);
+        $receivedResponse = $card->authenticate();
 
         $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
         $this->assertSame($response, $receivedResponse);

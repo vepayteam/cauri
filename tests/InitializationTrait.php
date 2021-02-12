@@ -10,7 +10,7 @@ trait InitializationTrait
     public function setUp(): void
     {
         Config::getInstance()->tests = [
-            'private_key' => '1111111111111111111111111111111111111111'
+            'private_key' => '38a26d14b5ff1b7398c3087bcacfccbb'
         ];
 
         Config::getInstance()->logger = Logger::class;
