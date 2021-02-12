@@ -37,7 +37,7 @@ class TransactionStatusRequest extends Request
     public function getOptionsValidator(): Validator
     {
         return (new Validator)
-            ->set('private_key', Validator::REQUIRED);
+            ->set('public_key', Validator::REQUIRED);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Vepay\Cauri\Client\Request;
 
-use Vepay\Cauri\Client\Middleware\ProjectQuery;
+use Vepay\Cauri\Client\Middleware\Project;
 use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
 
@@ -45,6 +45,6 @@ class CardTokenCreateRequest extends Request
      */
     public function getMiddlewares(): array
     {
-        return [new ProjectQuery];
+        return [new Project];
     }
 }

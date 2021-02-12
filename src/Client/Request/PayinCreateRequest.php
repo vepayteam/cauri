@@ -3,7 +3,7 @@
 namespace Vepay\Cauri\Client\Request;
 
 use Vepay\Cauri\Client\Middleware\PostSign;
-use Vepay\Cauri\Client\Middleware\ProjectBody;
+use Vepay\Cauri\Client\Middleware\Project;
 use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
 
@@ -58,6 +58,6 @@ class PayinCreateRequest extends Request
      */
     public function getMiddlewares(): array
     {
-        return [new ProjectBody, new PostSign];
+        return [new Project, new PostSign];
     }
 }
