@@ -4,6 +4,7 @@ namespace Vepay\Cauri\Tests\Unit\Resource;
 
 use PHPUnit\Framework\TestCase;
 use Vepay\Cauri\Resource\Card;
+use Vepay\Cauri\Resource\Refund;
 use Vepay\Cauri\Resource\User;
 use Vepay\Gateway\Client\Validator\ValidationException;
 use Vepay\Gateway\Config;
@@ -123,11 +124,11 @@ class ValidatorRequestTest extends TestCase
     /**
      * Documentation: https://docs.pa.cauri.com/api/#reverse-a-payment
      */
-    public function testTransactionPaymentReverseValidation(): void
+    public function testRefundCreateValidation(): void
     {
         $this->expectException(ValidationException::class);
 
-        (new Transaction())->paymentReverse(
+        (new Refund())->create(
             ['project' => '1111111111', 'id' => 111111],
             [
                 'private_key' => Config::getInstance()->tests['private_key'],

@@ -3,32 +3,31 @@
 namespace Vepay\Cauri\Client\Request;
 
 use Vepay\Cauri\Client\Middleware\PostSign;
-use Vepay\Cauri\Client\Middleware\Project;
+use Vepay\Gateway\Client\Request\EndpointModificator;
 use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
 
 /**
- * Class UserRecurringSettingsChangeRequest
+ * Class TransactionStatusRequest
  * @package Vepay\Cauri\Client\Request
  */
-class UserRecurringSettingsChangeRequest extends Request
+class TransactionStatusRequest extends Request
 {
-    protected string $endpoint = 'v1/user/changeRecurring';
-    protected string $method = 'POST';
+    use EndpointModificator;
+
+    protected string $endpoint = 'v1/transactions/{id}';
+    protected string $method = 'GET';
 
     /**
-     * Documentation: https://docs.pa.cauri.com/api/#change-recurring-settings
+     * Documentation: https://docs.pa.cauri.com/api/#get-transaction-by-id
      *
      * @return Validator
      */
     public function getParametersValidator(): Validator
     {
         return (new Validator)
-            ->set('user', Validator::REQUIRED)
-            ->set('interval', Validator::OPTIONAL)
-            ->set('price', Validator::OPTIONAL)
-            ->set('currency', Validator::OPTIONAL);
-        // project - will add in Middleware Project
+            ->set('id', Validator::REQUIRED)
+            ->set('project', Validator::REQUIRED);
         // signature - will generate and add in Middleware PostSign
     }
 
@@ -38,7 +37,6 @@ class UserRecurringSettingsChangeRequest extends Request
     public function getOptionsValidator(): Validator
     {
         return (new Validator)
-            ->set('public_key', Validator::REQUIRED)
             ->set('private_key', Validator::REQUIRED);
     }
 
@@ -47,6 +45,6 @@ class UserRecurringSettingsChangeRequest extends Request
      */
     public function getMiddlewares(): array
     {
-        return [new Project, new PostSign];
+        return [new PostSign];
     }
 }

@@ -6,6 +6,7 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use Vepay\Cauri\Resource\Card;
 use Vepay\Cauri\Resource\Payin;
+use Vepay\Cauri\Resource\Refund;
 use Vepay\Cauri\Resource\Transaction;
 use Vepay\Cauri\Resource\User;
 use Vepay\Cauri\Tests\InitializationTrait;
@@ -23,25 +24,29 @@ class ResourceOperationsRequestTest extends TestCase
      */
     public function testUserResolve(): array
     {
-        $projectId = time();
         $response = (new User())->resolve(
             [
-                'project' => $projectId,
                 'identifier' => 1,
                 'display_name' => 'Example User',
                 'email' => 'user@example.com',
                 'phone' => '123456789',
                 'locale' => 'en',
                 'ip' => '127.0.0.1',
+                'recurring' => 1,
+                'recurring_interval' => 15,
+                'recurring_trial' => 10,
+                'attr_test1' => 'test1',
+                'attr_test2' => 'test2',
             ],
             [
+                'public_key' => Config::getInstance()->tests['public_key'],
                 'private_key' => Config::getInstance()->tests['private_key'],
             ]
         );
 
-        $this->assertEquals(201, $response->getStatus());
+        $this->assertEquals(200, $response->getStatus());
 
-        return ['projectId' => $projectId,  'id' => $response->getContent()['id']];
+        return ['id' => $response->getContent()['id']];
     }
 
     /**
@@ -54,20 +59,25 @@ class ResourceOperationsRequestTest extends TestCase
      */
     public function testUserRecurringSettingsChange(array $userResolve): void
     {
-        $response = (new User())->recurringSettingsChange(
-            [
-                'project' => $userResolve['projectId'],
-                'user' => $userResolve['id'],
-                'interval' => '30',
-                'price' => 3.50,
-                'currency' => 'USD',
-            ],
-            [
-                'private_key' => Config::getInstance()->tests['private_key'],
-            ]
-        );
+        try {
+            $response = (new User())->recurringSettingsChange(
+                [
+                    'user' => $userResolve['id'],
+                    'interval' => '30',
+                    'price' => 3.50,
+                    'currency' => 'USD',
+                ],
+                [
+                    'public_key' => Config::getInstance()->tests['public_key'],
+                    'private_key' => Config::getInstance()->tests['private_key'],
+                ]
+            );
 
-        $this->assertEquals(201, $response->getStatus());
+            $this->assertEquals(201, $response->getStatus());
+        } catch (Exception $exception) {
+            $this->assertEquals(403, $exception->getCode());
+            $this->assertStringContainsString('Recurring is disabled for requested user.', $exception->getMessage());
+        }
     }
 
     /**
@@ -257,9 +267,9 @@ class ResourceOperationsRequestTest extends TestCase
      * @param array $userResolve
      * @throws Exception
      */
-    public function testTransactionPaymentReverse(array $userResolve): void
+    public function testRefundCreate(array $userResolve): void
     {
-        $response = (new Transaction())->paymentReverse(
+        $response = (new Refund())->create(
             [
                 'project' => $userResolve['projectId'],
                 'id' => 122612357431149845,

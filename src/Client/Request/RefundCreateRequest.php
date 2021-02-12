@@ -7,10 +7,10 @@ use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
 
 /**
- * Class TransactionPaymentReverseRequest
+ * Class RefundCreateRequest
  * @package Vepay\Cauri\Client\Request
  */
-class TransactionPaymentReverseRequest extends Request
+class RefundCreateRequest extends Request
 {
     protected string $endpoint = 'v1/transaction/reverse';
     protected string $method = 'POST';
