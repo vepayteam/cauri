@@ -3,6 +3,7 @@
 namespace Vepay\Cauri\Client\Request;
 
 use Vepay\Cauri\Client\Middleware\PostSign;
+use Vepay\Cauri\Client\Middleware\ProjectBody;
 use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
 
@@ -23,7 +24,6 @@ class TransactionCreateRequest extends Request
     public function getParametersValidator(): Validator
     {
         return (new Validator)
-            ->set('project', Validator::REQUIRED)
             ->set('user', Validator::REQUIRED)
             ->set('display_name', Validator::OPTIONAL)
             // Possible values are: paypal, qiwi, yandex_money_wallet, yandex_money_wallet_v2, web_money_wme,
@@ -40,6 +40,7 @@ class TransactionCreateRequest extends Request
             ->set('description', Validator::REQUIRED)
             ->set('success_url', Validator::REQUIRED)
             ->set('fail_url', Validator::REQUIRED);
+        // project - will add in Middleware ProjectBody
         // signature - will generate and add in Middleware PostSign
     }
 
@@ -49,6 +50,7 @@ class TransactionCreateRequest extends Request
     public function getOptionsValidator(): Validator
     {
         return (new Validator)
+            ->set('public_key', Validator::REQUIRED)
             ->set('private_key', Validator::REQUIRED);
     }
 
@@ -57,6 +59,6 @@ class TransactionCreateRequest extends Request
      */
     public function getMiddlewares(): array
     {
-        return [new PostSign];
+        return [new ProjectBody, new PostSign];
     }
 }

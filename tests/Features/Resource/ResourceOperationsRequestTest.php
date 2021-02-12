@@ -131,7 +131,7 @@ class ResourceOperationsRequestTest extends TestCase
                 ]
             );
 
-            $this->assertEquals(201, $response->getStatus());
+            $this->assertEquals(200, $response->getStatus());
         } catch (Exception $exception) {
             $this->assertEquals(403, $exception->getCode());
             $this->assertStringContainsString('Recurring is disabled for requested user.', $exception->getMessage());
@@ -175,7 +175,6 @@ class ResourceOperationsRequestTest extends TestCase
     {
         $response = (new Payin())->create(
             [
-                'project' => time(),
                 'user' => [
                     'id' => time(),
                     'identifier' => 1,
@@ -201,6 +200,7 @@ class ResourceOperationsRequestTest extends TestCase
                 'attr_test4' => 0,
             ],
             [
+                'public_key' => Config::getInstance()->tests['public_key'],
                 'private_key' => Config::getInstance()->tests['private_key'],
             ]
         );
@@ -211,27 +211,25 @@ class ResourceOperationsRequestTest extends TestCase
     /**
      * Documentation: https://docs.pa.cauri.com/api/#authenticate-a-card
      *
-     * @depends testUserResolve
      * @depends testPayinWithCardTokenCreate
      *
-     * @param array $userResolve
      * @param array $payin
      * @throws Exception
      */
-    public function testCardAuthenticate(array $userResolve, array $payin): void
+    public function testCardAuthenticate(array $payin): void
     {
         $response = (new Card())->authenticate(
             [
-                'project' => $userResolve['projectId'],
                 'PaRes' => $payin['acs']['parameters']['PaReq'],
                 'MD' => $payin['acs']['parameters']['MD'],
             ],
             [
+                'public_key' => Config::getInstance()->tests['public_key'],
                 'private_key' => Config::getInstance()->tests['private_key'],
             ]
         );
 
-        $this->assertEquals(201, $response->getStatus());
+        $this->assertEquals(200, $response->getStatus());
     }
 
     /**
@@ -246,7 +244,6 @@ class ResourceOperationsRequestTest extends TestCase
     {
         $response = (new Card())->manualRecurring(
             [
-                'project' => $userResolve['projectId'],
                 'user' => $userResolve['id'],
                 'price' => 5.99,
                 'currency' => 'USD',
@@ -254,36 +251,37 @@ class ResourceOperationsRequestTest extends TestCase
                 'description' => 'My custom description.',
             ],
             [
+                'public_key' => Config::getInstance()->tests['public_key'],
                 'private_key' => Config::getInstance()->tests['private_key'],
             ]
         );
 
-        $this->assertEquals(201, $response->getStatus());
+        $this->assertEquals(200, $response->getStatus());
     }
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#reverse-a-payment
      *
-     * @depends testUserResolve
+     * @depends testPayinWithCardTokenCreate
      *
-     * @param array $userResolve
+     * @param array $payin
      * @throws Exception
      */
-    public function testRefundCreate(array $userResolve): void
+    public function testRefundCreate(array $payin): void
     {
         $response = (new Refund())->create(
             [
-                'project' => $userResolve['projectId'],
-                'id' => 122612357431149845,
+                'id' => $payin['id'],
                 'amount' => 0.01,
                 'comment' => 'Suspected fraud.',
             ],
             [
+                'public_key' => Config::getInstance()->tests['public_key'],
                 'private_key' => Config::getInstance()->tests['private_key'],
             ]
         );
 
-        $this->assertEquals(201, $response->getStatus());
+        $this->assertEquals(200, $response->getStatus());
     }
 
     /**
@@ -298,7 +296,6 @@ class ResourceOperationsRequestTest extends TestCase
     {
         $response = (new Transaction())->create(
             [
-                'project' => $userResolve['projectId'],
                 'user' => $userResolve['id'],
                 'payment_method' => 'web_money_wmz',
                 'price' => 5.99,
@@ -308,10 +305,11 @@ class ResourceOperationsRequestTest extends TestCase
                 'fail_url' => 'https://example.com',
             ],
             [
+                'public_key' => Config::getInstance()->tests['public_key'],
                 'private_key' => Config::getInstance()->tests['private_key'],
             ]
         );
 
-        $this->assertEquals(201, $response->getStatus());
+        $this->assertEquals(200, $response->getStatus());
     }
 }

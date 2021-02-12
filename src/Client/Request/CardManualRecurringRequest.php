@@ -3,6 +3,7 @@
 namespace Vepay\Cauri\Client\Request;
 
 use Vepay\Cauri\Client\Middleware\PostSign;
+use Vepay\Cauri\Client\Middleware\ProjectBody;
 use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
 
@@ -23,12 +24,12 @@ class CardManualRecurringRequest extends Request
     public function getParametersValidator(): Validator
     {
         return (new Validator)
-            ->set('project', Validator::REQUIRED)
             ->set('user', Validator::REQUIRED)
             ->set('price', Validator::REQUIRED)
             ->set('currency', Validator::REQUIRED)
             ->set('order_id', Validator::OPTIONAL)
             ->set('description', Validator::OPTIONAL);
+        // project - will add in Middleware ProjectBody
         // signature - will generate and add in Middleware PostSign
     }
 
@@ -38,6 +39,7 @@ class CardManualRecurringRequest extends Request
     public function getOptionsValidator(): Validator
     {
         return (new Validator)
+            ->set('public_key', Validator::REQUIRED)
             ->set('private_key', Validator::REQUIRED);
     }
 
@@ -46,6 +48,6 @@ class CardManualRecurringRequest extends Request
      */
     public function getMiddlewares(): array
     {
-        return [new PostSign];
+        return [new ProjectBody, new PostSign];
     }
 }

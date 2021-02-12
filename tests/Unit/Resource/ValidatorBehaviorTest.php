@@ -12,7 +12,7 @@ use Vepay\Cauri\Resource\Payin;
 use Vepay\Cauri\Resource\Transaction;
 use Vepay\Cauri\Tests\InitializationTrait;
 
-class ValidatorRequestTest extends TestCase
+class ValidatorBehaviorTest extends TestCase
 {
     use InitializationTrait;
 
