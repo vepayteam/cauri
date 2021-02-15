@@ -4,6 +4,7 @@ namespace Vepay\Cauri\Resource;
 
 use Exception;
 use Vepay\Cauri\Client\ClientConfigurator;
+use Vepay\Cauri\Client\Request\PayoutCreateRequest;
 use Vepay\Cauri\Client\Request\PayoutFetchAvailablePayoutTypesRequest;
 use Vepay\Cauri\Client\Request\PayoutFetchPayoutParametersRequest;
 use Vepay\Gateway\Client\Response\ResponseInterface;
@@ -45,6 +46,23 @@ class Payout extends AbstractResource
     protected function fetchPayoutParameters(array $parameters, array $options): ResponseInterface
     {
         $request = new PayoutFetchPayoutParametersRequest($parameters, $options);
+
+        return ClientConfigurator
+            ::get()
+            ->send($request);
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#create-payout
+     *
+     * @param array $parameters
+     * @param array $options
+     * @return ResponseInterface
+     * @throws Exception
+     */
+    protected function create(array $parameters, array $options): ResponseInterface
+    {
+        $request = new PayoutCreateRequest($parameters, $options);
 
         return ClientConfigurator
             ::get()

@@ -197,4 +197,22 @@ class ValidatorBehaviorTest extends TestCase
             ]
         );
     }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#create-payout
+     */
+    public function testPayoutCreateValidation(): void
+    {
+        $this->expectException(ValidationException::class);
+
+        (new Payout())->create(
+            [
+                'type' => 'test_type',
+                'amount' => 'test_amount',
+            ],
+            [
+                'private_key' => Config::getInstance()->tests['private_key'],
+            ]
+        );
+    }
 }

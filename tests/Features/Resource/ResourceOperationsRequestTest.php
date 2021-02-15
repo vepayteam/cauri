@@ -383,4 +383,45 @@ class ResourceOperationsRequestTest extends TestCase
 
         $this->assertEquals(200, $response->getStatus());
     }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#create-payout
+     *
+     * @depends testPayoutFetchAvailablePayoutTypes
+     * @depends testCardTokenCreate
+     *
+     * @param array $availablePayoutTypes
+     * @throws Exception
+     */
+    public function testPayoutCreate(array $availablePayoutTypes): void
+    {
+        $responseToken = (new Card())->tokenCreate(
+            [
+                'number' => '4012001037141112',
+                'expiration_month' => '4',
+                'expiration_year' => '2022',
+                'security_code' => '123',
+            ],
+            [
+                'public_key' => Config::getInstance()->tests['public_key'],
+            ]
+        );
+
+        $response = (new Payout())->create(
+            [
+                'type' => $availablePayoutTypes['types'][0]['id'],
+                'amount' => 10,
+                'currency' => 'RUB',
+                'description' => 'payout',
+                'phone' => '77777777777',
+                'cardToken' => $responseToken->getContent()['id'],
+            ],
+            [
+                'public_key' => Config::getInstance()->tests['public_key'],
+                'private_key' => Config::getInstance()->tests['private_key'],
+            ]
+        );
+
+        $this->assertEquals(200, $response->getStatus());
+    }
 }
