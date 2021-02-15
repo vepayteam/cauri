@@ -13,6 +13,7 @@ use Vepay\Cauri\Tests\Mock\Response\MockCardManualRecurringResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockCardTokenCreateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockPayinCreateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockPayoutFetchAvailablePayoutTypesResponse;
+use Vepay\Cauri\Tests\Mock\Response\MockPayoutFetchPayoutParametersResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockTransactionCreateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockRefundCreateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockTransactionStatusResponse;
@@ -183,6 +184,21 @@ class MocksResourceOperationsRequestTest extends TestCase
         $response = new MockPayoutFetchAvailablePayoutTypesResponse();
         $payout->mock('fetchAvailablePayoutTypes', $response);
         $receivedResponse = $payout->fetchAvailablePayoutTypes();
+
+        $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
+        $this->assertSame($response, $receivedResponse);
+        $this->assertEquals(200, $receivedResponse->getStatus());
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#fetch-payout-parameters
+     */
+    public function testMockPayoutFetchPayoutParameters(): void
+    {
+        $payout = new Payout();
+        $response = new MockPayoutFetchPayoutParametersResponse();
+        $payout->mock('fetchPayoutParameters', $response);
+        $receivedResponse = $payout->fetchPayoutParameters();
 
         $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
         $this->assertSame($response, $receivedResponse);

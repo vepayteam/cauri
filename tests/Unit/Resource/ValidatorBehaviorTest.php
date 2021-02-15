@@ -179,4 +179,22 @@ class ValidatorBehaviorTest extends TestCase
             []
         );
     }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#fetch-payout-parameters
+     */
+    public function testPayoutFetchPayoutParametersValidation(): void
+    {
+        $this->expectException(ValidationException::class);
+
+        (new Payout())->fetchPayoutParameters(
+            [
+                'type' => 'test_type',
+                'account' => 'test_account',
+            ],
+            [
+                'private_key' => Config::getInstance()->tests['private_key'],
+            ]
+        );
+    }
 }

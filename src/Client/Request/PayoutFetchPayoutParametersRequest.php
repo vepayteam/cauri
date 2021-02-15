@@ -7,22 +7,25 @@ use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
 
 /**
- * Class PayoutFetchAvailablePayoutTypesRequest
+ * Class PayoutFetchPayoutParametersRequest
  * @package Vepay\Cauri\Client\Request
  */
-class PayoutFetchAvailablePayoutTypesRequest extends Request
+class PayoutFetchPayoutParametersRequest extends Request
 {
-    protected string $endpoint = 'v1/payout-types';
+    protected string $endpoint = 'v1/payout-parameters';
     protected string $method = 'GET';
 
     /**
-     * Documentation: https://docs.pa.cauri.com/api/#fetch-available-payout-types
+     * Documentation: https://docs.pa.cauri.com/api/#fetch-payout-parameters
      *
      * @return Validator
      */
     public function getParametersValidator(): Validator
     {
-        return (new Validator);
+        return (new Validator)
+            ->set('type', Validator::REQUIRED)
+            ->set('account', Validator::REQUIRED)
+            ->set('currency', Validator::REQUIRED);
         // project - will add in Middleware Project
     }
 

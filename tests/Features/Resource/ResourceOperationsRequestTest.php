@@ -343,12 +343,38 @@ class ResourceOperationsRequestTest extends TestCase
     /**
      * Documentation: https://docs.pa.cauri.com/api/#fetch-available-payout-types
      *
+     * @return array
      * @throws Exception
      */
-    public function testPayoutFetchAvailablePayoutTypes(): void
+    public function testPayoutFetchAvailablePayoutTypes(): array
     {
         $response = (new Payout())->fetchAvailablePayoutTypes(
+            [],
             [
+                'public_key' => Config::getInstance()->tests['public_key'],
+            ]
+        );
+
+        $this->assertEquals(200, $response->getStatus());
+
+        return $response->getContent();
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#fetch-payout-parameters
+     *
+     * @depends testPayoutFetchAvailablePayoutTypes
+     *
+     * @param array $availablePayoutTypes
+     * @throws Exception
+     */
+    public function testPayoutFetchPayoutParameters(array $availablePayoutTypes): void
+    {
+        $response = (new Payout())->fetchPayoutParameters(
+            [
+                'type' => $availablePayoutTypes['types'][0]['id'],
+                'account' => 553691,
+                'currency' => 'RUB',
             ],
             [
                 'public_key' => Config::getInstance()->tests['public_key'],
