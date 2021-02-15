@@ -366,9 +366,10 @@ class ResourceOperationsRequestTest extends TestCase
      * @depends testPayoutFetchAvailablePayoutTypes
      *
      * @param array $availablePayoutTypes
+     * @return array
      * @throws Exception
      */
-    public function testPayoutFetchPayoutParameters(array $availablePayoutTypes): void
+    public function testPayoutFetchPayoutParameters(array $availablePayoutTypes): array
     {
         $response = (new Payout())->fetchPayoutParameters(
             [
@@ -382,18 +383,21 @@ class ResourceOperationsRequestTest extends TestCase
         );
 
         $this->assertEquals(200, $response->getStatus());
+
+        return $response->getContent();
     }
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#create-payout
      *
      * @depends testPayoutFetchAvailablePayoutTypes
-     * @depends testCardTokenCreate
+     * @depends testPayoutFetchPayoutParameters
      *
      * @param array $availablePayoutTypes
+     * @param array $payoutParameters
      * @throws Exception
      */
-    public function testPayoutCreate(array $availablePayoutTypes): void
+    public function testPayoutCreate(array $availablePayoutTypes, array $payoutParameters): void
     {
         $responseToken = (new Card())->tokenCreate(
             [
@@ -407,15 +411,21 @@ class ResourceOperationsRequestTest extends TestCase
             ]
         );
 
+        $requestParameters = [
+            'type' => $availablePayoutTypes['types'][0]['id'],
+            'amount' => 10,
+            'currency' => 'RUB',
+            'description' => 'payout',
+            'phone' => '77777777777',
+            'cardToken' => $responseToken->getContent()['id'],
+        ];
+
+        foreach ($payoutParameters as $parameter) {
+            $requestParameters[$parameter['name']] = $parameter['name'] . '_test';
+        }
+
         $response = (new Payout())->create(
-            [
-                'type' => $availablePayoutTypes['types'][0]['id'],
-                'amount' => 10,
-                'currency' => 'RUB',
-                'description' => 'payout',
-                'phone' => '77777777777',
-                'cardToken' => $responseToken->getContent()['id'],
-            ],
+            $requestParameters,
             [
                 'public_key' => Config::getInstance()->tests['public_key'],
                 'private_key' => Config::getInstance()->tests['private_key'],
