@@ -90,55 +90,10 @@ class ResourceOperationsRequestTest extends TestCase
                 'price' => '5.99',
                 'currency' => 'USD',
                 'description' => 'My custom description.',
-                'attr_test' => 'test',
-            ],
-            [
-                'public_key' => Config::getInstance()->tests['public_key'],
-                'private_key' => Config::getInstance()->tests['private_key'],
-            ]
-        );
-
-        $this->assertEquals(200, $response->getStatus());
-
-        return $response->getContent();
-    }
-
-    /**
-     * Documentation: https://docs.pa.cauri.com/api/#charge-a-card
-     *
-     * @depends testUserResolve
-     *
-     * @param array $userResolve
-     * @return array
-     * @throws Exception
-     */
-    public function testPayinWithRecurringCreate(array $userResolve): array
-    {
-        $response = (new Payin())->create(
-            [
-                'user' => [
-                    'id' => $userResolve['id'],
-                    'identifier' => 1,
-                    'displayName' => 'Example User',
-                    'email' => 'user@example.com',
-                    'phone' => '123456789',
-                    'ip' => '127.0.0.1',
-                    'locale' => 'en',
-                ],
-                'price' => '0.01',
-                'currency' => 'RUB',
-                'description' => 'Test Descr',
-                'card' => [
-                    'number' => '4012001037141112',
-                    'expiration_month' => '4',
-                    'expiration_year' => '2022',
-                    'security_code' => '123',
-                    'holder' => 'Firstname Secondname',
-                ],
                 'recurring' => 1,
                 'recurring_interval' => 15,
                 'recurring_trial' => 10,
-                'attr_test' => 'attr',
+                'attr_test' => 'test',
             ],
             [
                 'public_key' => Config::getInstance()->tests['public_key'],
@@ -168,34 +123,6 @@ class ResourceOperationsRequestTest extends TestCase
                     'interval' => '30',
                     'price' => 3.50,
                     'currency' => 'USD',
-                ],
-                [
-                    'public_key' => Config::getInstance()->tests['public_key'],
-                    'private_key' => Config::getInstance()->tests['private_key'],
-                ]
-            );
-
-            $this->assertEquals(200, $response->getStatus());
-        } catch (Exception $exception) {
-            $this->assertEquals(403, $exception->getCode());
-            $this->assertStringContainsString('Recurring is disabled for requested user.', $exception->getMessage());
-        }
-    }
-
-    /**
-     * Documentation: https://docs.pa.cauri.com/api/#cancel-recurring
-     *
-     * @depends testUserResolve
-     *
-     * @param array $userResolve
-     * @throws Exception
-     */
-    public function testUserRecurringCancel(array $userResolve): void
-    {
-        try {
-            $response = (new User())->recurringCancel(
-                [
-                    'user' => $userResolve['id'],
                 ],
                 [
                     'public_key' => Config::getInstance()->tests['public_key'],
@@ -291,21 +218,57 @@ class ResourceOperationsRequestTest extends TestCase
      */
     public function testCardManualRecurring(array $userResolve): void
     {
-        $response = (new Card())->manualRecurring(
-            [
-                'user' => $userResolve['id'],
-                'price' => 5.99,
-                'currency' => 'USD',
-                'order_id' => '12345',
-                'description' => 'My custom description.',
-            ],
-            [
-                'public_key' => Config::getInstance()->tests['public_key'],
-                'private_key' => Config::getInstance()->tests['private_key'],
-            ]
-        );
+        try {
+            $response = (new Card())->manualRecurring(
+                [
+                    'user' => $userResolve['id'],
+                    'price' => 1.0,
+                    'currency' => 'RUB',
+                    'order_id' => '12345',
+                    'description' => 'My custom description.',
+                ],
+                [
+                    'public_key' => Config::getInstance()->tests['public_key'],
+                    'private_key' => Config::getInstance()->tests['private_key'],
+                ]
+            );
 
-        $this->assertEquals(200, $response->getStatus());
+            $this->assertEquals(200, $response->getStatus());
+        } catch (Exception $exception) {
+            $this->assertEquals(405, $exception->getCode());
+            $this->assertStringContainsString(
+                'Recurring payments are too frequent for requested user.',
+                $exception->getMessage()
+            );
+        }
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#cancel-recurring
+     *
+     * @depends testUserResolve
+     *
+     * @param array $userResolve
+     * @throws Exception
+     */
+    public function testUserRecurringCancel(array $userResolve): void
+    {
+        try {
+            $response = (new User())->recurringCancel(
+                [
+                    'user' => $userResolve['id'],
+                ],
+                [
+                    'public_key' => Config::getInstance()->tests['public_key'],
+                    'private_key' => Config::getInstance()->tests['private_key'],
+                ]
+            );
+
+            $this->assertEquals(200, $response->getStatus());
+        } catch (Exception $exception) {
+            $this->assertEquals(403, $exception->getCode());
+            $this->assertStringContainsString('Recurring is disabled for requested user.', $exception->getMessage());
+        }
     }
 
     /**

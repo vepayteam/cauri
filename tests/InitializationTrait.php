@@ -4,6 +4,7 @@ namespace Vepay\Cauri\Tests;
 
 use Vepay\Gateway\Config;
 use Vepay\Gateway\Logger\Logger;
+use Vepay\Gateway\Logger\LoggerInterface;
 
 trait InitializationTrait
 {
@@ -15,5 +16,6 @@ trait InitializationTrait
         ];
 
         Config::getInstance()->logger = Logger::class;
+        Config::getInstance()->logLevel = LoggerInterface::ERROR_LOG_LEVEL;
     }
 }
