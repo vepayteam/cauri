@@ -91,11 +91,54 @@ class ResourceOperationsRequestTest extends TestCase
                 'currency' => 'USD',
                 'description' => 'My custom description.',
                 'attr_test' => 'test',
-//                'recurring' => 1,
-//                'recurring_interval' => 15,
-//                'recurring_trial' => 10,
-//                'attr_test1' => 'test1',
-//                'attr_test2' => 'test2',
+            ],
+            [
+                'public_key' => Config::getInstance()->tests['public_key'],
+                'private_key' => Config::getInstance()->tests['private_key'],
+            ]
+        );
+
+        $this->assertEquals(200, $response->getStatus());
+
+        return $response->getContent();
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#charge-a-card
+     *
+     * @depends testUserResolve
+     *
+     * @param array $userResolve
+     * @return array
+     * @throws Exception
+     */
+    public function testPayinWithRecurringCreate(array $userResolve): array
+    {
+        $response = (new Payin())->create(
+            [
+                'user' => [
+                    'id' => $userResolve['id'],
+                    'identifier' => 1,
+                    'displayName' => 'Example User',
+                    'email' => 'user@example.com',
+                    'phone' => '123456789',
+                    'ip' => '127.0.0.1',
+                    'locale' => 'en',
+                ],
+                'price' => '0.01',
+                'currency' => 'RUB',
+                'description' => 'Test Descr',
+                'card' => [
+                    'number' => '4012001037141112',
+                    'expiration_month' => '4',
+                    'expiration_year' => '2022',
+                    'security_code' => '123',
+                    'holder' => 'Firstname Secondname',
+                ],
+                'recurring' => 1,
+                'recurring_interval' => 15,
+                'recurring_trial' => 10,
+                'attr_test' => 'attr',
             ],
             [
                 'public_key' => Config::getInstance()->tests['public_key'],
@@ -173,9 +216,10 @@ class ResourceOperationsRequestTest extends TestCase
      * @depends testUserResolve
      *
      * @param array $userResolve
+     * @return array
      * @throws Exception
      */
-    public function testPayinWithCardCreate(array $userResolve): void
+    public function testPayinWithCardCreate(array $userResolve): array
     {
         $response = (new Payin())->create(
             [
@@ -191,8 +235,10 @@ class ResourceOperationsRequestTest extends TestCase
                 'price' => '0.01',
                 'currency' => 'RUB',
                 'description' => 'Test Descr',
+                '3ds' => 1,
+                'acs_return_url' => "https://example.com/acs_return/",
                 'card' => [
-                    'number' => '5444870724493746',
+                    'number' => '4012001037141112',
                     'expiration_month' => '4',
                     'expiration_year' => '2022',
                     'security_code' => '123',
@@ -207,12 +253,14 @@ class ResourceOperationsRequestTest extends TestCase
         );
 
         $this->assertEquals(200, $response->getStatus());
+
+        return $response->getContent();
     }
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#authenticate-a-card
      *
-     * @depends testPayinWithCardTokenCreate
+     * @depends testPayinWithCardCreate
      *
      * @param array $payin
      * @throws Exception
