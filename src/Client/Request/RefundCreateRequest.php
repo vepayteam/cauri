@@ -2,7 +2,7 @@
 
 namespace Vepay\Cauri\Client\Request;
 
-use Vepay\Cauri\Client\Middleware\PostSign;
+use Vepay\Cauri\Client\Middleware\Signature;
 use Vepay\Cauri\Client\Middleware\Project;
 use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
@@ -28,8 +28,8 @@ class RefundCreateRequest extends Request
             ->set('order_id', Validator::OPTIONAL)
             ->set('amount', Validator::REQUIRED)
             ->set('comment', Validator::OPTIONAL);
-        // project - will add in Middleware ProjectBody
-        // signature - will generate and add in Middleware PostSign
+        // project - will add in Middleware Project
+        // signature - will generate and add in Middleware Signature
     }
 
     /**
@@ -47,6 +47,6 @@ class RefundCreateRequest extends Request
      */
     public function getMiddlewares(): array
     {
-        return [new Project, new PostSign];
+        return [new Project, new Signature];
     }
 }

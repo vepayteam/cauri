@@ -2,7 +2,8 @@
 
 namespace Vepay\Cauri\Client\Request;
 
-use Vepay\Cauri\Client\Middleware\PostSign;
+use Vepay\Cauri\Client\Middleware\Project;
+use Vepay\Cauri\Client\Middleware\Signature;
 use Vepay\Gateway\Client\Request\EndpointModificator;
 use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
@@ -26,9 +27,9 @@ class TransactionStatusRequest extends Request
     public function getParametersValidator(): Validator
     {
         return (new Validator)
-            ->set('id', Validator::REQUIRED)
-            ->set('project', Validator::REQUIRED);
-        // signature - will generate and add in Middleware PostSign
+            ->set('id', Validator::REQUIRED);
+        // project - will add in Middleware Project
+        // signature - will generate and add in Middleware Signature
     }
 
     /**
@@ -37,7 +38,8 @@ class TransactionStatusRequest extends Request
     public function getOptionsValidator(): Validator
     {
         return (new Validator)
-            ->set('public_key', Validator::REQUIRED);
+            ->set('public_key', Validator::REQUIRED)
+            ->set('private_key', Validator::REQUIRED);
     }
 
     /**
@@ -45,6 +47,6 @@ class TransactionStatusRequest extends Request
      */
     public function getMiddlewares(): array
     {
-        return [new PostSign];
+        return [new Project, new Signature];
     }
 }

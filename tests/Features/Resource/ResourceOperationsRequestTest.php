@@ -290,9 +290,10 @@ class ResourceOperationsRequestTest extends TestCase
      * @depends testUserResolve
      *
      * @param array $userResolve
+     * @return array
      * @throws Exception
      */
-    public function testTransactionCreate(array $userResolve): void
+    public function testTransactionCreate(array $userResolve): array
     {
         $response = (new Transaction())->create(
             [
@@ -303,6 +304,31 @@ class ResourceOperationsRequestTest extends TestCase
                 'description' => 'Test',
                 'success_url' => 'https://example.com',
                 'fail_url' => 'https://example.com',
+            ],
+            [
+                'public_key' => Config::getInstance()->tests['public_key'],
+                'private_key' => Config::getInstance()->tests['private_key'],
+            ]
+        );
+
+        $this->assertEquals(200, $response->getStatus());
+
+        return ['id' => $response->getContent()['id']];
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#get-transaction-by-id
+     *
+     * @depends testTransactionCreate
+     *
+     * @param array $transaction
+     * @throws Exception
+     */
+    public function testTransactionStatus(array $transaction): void
+    {
+        $response = (new Transaction())->status(
+            [
+                'id' => $transaction['id'],
             ],
             [
                 'public_key' => Config::getInstance()->tests['public_key'],

@@ -150,4 +150,19 @@ class ValidatorBehaviorTest extends TestCase
             ]
         );
     }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#get-transaction-by-id
+     */
+    public function testTransactionStatusValidation(): void
+    {
+        $this->expectException(ValidationException::class);
+
+        (new Transaction())->status(
+            [],
+            [
+                'private_key' => Config::getInstance()->tests['private_key'],
+            ]
+        );
+    }
 }

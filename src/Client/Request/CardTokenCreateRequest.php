@@ -28,7 +28,7 @@ class CardTokenCreateRequest extends Request
             ->set('expiration_year', Validator::REQUIRED)
             ->set('security_code', Validator::REQUIRED)
             ->set('callback', Validator::OPTIONAL);
-        // project - will add in Middleware ProjectQuery
+        // project - will add in Middleware Project
     }
 
     /**

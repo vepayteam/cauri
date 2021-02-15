@@ -44,7 +44,6 @@ class Transaction extends AbstractResource
      */
     protected function status(array $parameters, array $options = []): ResponseInterface
     {
-        // TODO: not finished
         $request = new TransactionStatusRequest($parameters, $options);
 
         return ClientConfigurator
