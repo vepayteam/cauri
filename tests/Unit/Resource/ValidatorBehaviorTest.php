@@ -144,8 +144,8 @@ class ValidatorBehaviorTest extends TestCase
     {
         $this->expectException(ValidationException::class);
 
-        (new Transaction())->paymentReverse(
-            ['project' => '1111111111', 'id' => 111111],
+        (new Transaction())->create(
+            ['user' => '11', 'price' => 5.99],
             [
                 'private_key' => Config::getInstance()->tests['private_key'],
             ]
