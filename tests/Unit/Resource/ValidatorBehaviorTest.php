@@ -4,6 +4,7 @@ namespace Vepay\Cauri\Tests\Unit\Resource;
 
 use PHPUnit\Framework\TestCase;
 use Vepay\Cauri\Resource\Card;
+use Vepay\Cauri\Resource\Payout;
 use Vepay\Cauri\Resource\Refund;
 use Vepay\Cauri\Resource\User;
 use Vepay\Gateway\Client\Validator\ValidationException;
@@ -163,6 +164,19 @@ class ValidatorBehaviorTest extends TestCase
             [
                 'private_key' => Config::getInstance()->tests['private_key'],
             ]
+        );
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#fetch-available-payout-types
+     */
+    public function testPayoutFetchAvailablePayoutTypesValidation(): void
+    {
+        $this->expectException(ValidationException::class);
+
+        (new Payout())->fetchAvailablePayoutTypes(
+            [],
+            []
         );
     }
 }

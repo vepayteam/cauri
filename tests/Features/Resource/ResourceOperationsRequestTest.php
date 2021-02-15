@@ -6,6 +6,7 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use Vepay\Cauri\Resource\Card;
 use Vepay\Cauri\Resource\Payin;
+use Vepay\Cauri\Resource\Payout;
 use Vepay\Cauri\Resource\Refund;
 use Vepay\Cauri\Resource\Transaction;
 use Vepay\Cauri\Resource\User;
@@ -333,6 +334,24 @@ class ResourceOperationsRequestTest extends TestCase
             [
                 'public_key' => Config::getInstance()->tests['public_key'],
                 'private_key' => Config::getInstance()->tests['private_key'],
+            ]
+        );
+
+        $this->assertEquals(200, $response->getStatus());
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#fetch-available-payout-types
+     *
+     * @throws Exception
+     */
+    public function testPayoutFetchAvailablePayoutTypes(): void
+    {
+        $response = (new Payout())->fetchAvailablePayoutTypes(
+            [
+            ],
+            [
+                'public_key' => Config::getInstance()->tests['public_key'],
             ]
         );
 
