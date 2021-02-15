@@ -77,12 +77,17 @@ class Signature implements MiddlewareInterface
     }
 
     /**
-     * @param array $parameters
+     * @param array $parametersOrigin
      * @param array $options
      * @return string
      */
-    private function generateSignature(array $parameters, array $options): string
+    private function generateSignature(array $parametersOrigin, array $options): string
     {
+        $parameters = [];
+        array_walk_recursive($parametersOrigin, function ($item, $key) use (&$parameters) {
+            $parameters[] = $item;
+        });
+
         sort($parameters, SORT_STRING);
         $signature = hash_hmac(
             'sha256',

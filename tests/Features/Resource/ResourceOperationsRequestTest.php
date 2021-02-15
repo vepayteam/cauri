@@ -170,14 +170,17 @@ class ResourceOperationsRequestTest extends TestCase
     /**
      * Documentation: https://docs.pa.cauri.com/api/#charge-a-card
      *
+     * @depends testUserResolve
+     *
+     * @param array $userResolve
      * @throws Exception
      */
-    public function testPayinWithCardCreate(): void
+    public function testPayinWithCardCreate(array $userResolve): void
     {
         $response = (new Payin())->create(
             [
                 'user' => [
-                    'id' => time(),
+                    'id' => $userResolve['id'],
                     'identifier' => 1,
                     'displayName' => 'Example User',
                     'email' => 'user@example.com',
@@ -195,10 +198,7 @@ class ResourceOperationsRequestTest extends TestCase
                     'security_code' => '123',
                     'holder' => 'Firstname Secondname',
                 ],
-                'attr_test1' => '',
-                'attr_test2' => 'asd',
-                'attr_test3' => null,
-                'attr_test4' => 0,
+                'attr_test' => 'attr',
             ],
             [
                 'public_key' => Config::getInstance()->tests['public_key'],
