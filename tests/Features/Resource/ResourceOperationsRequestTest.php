@@ -433,5 +433,6 @@ class ResourceOperationsRequestTest extends TestCase
         );
 
         $this->assertEquals(200, $response->getStatus());
+        $this->assertEquals(true, $response->getContent()['success']);
     }
 }
