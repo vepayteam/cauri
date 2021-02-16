@@ -20,7 +20,7 @@ class ValidatorBehaviorTest extends TestCase
     /**
      * Documentation: https://docs.pa.cauri.com/api/#charge-a-card
      */
-    public function testPayinPayinCreateValidation(): void
+    public function testPayinCreateValidation(): void
     {
         $this->expectException(ValidationException::class);
 
