@@ -4,6 +4,7 @@ namespace Vepay\Cauri\Client\Request;
 
 use Vepay\Cauri\Client\Middleware\Signature;
 use Vepay\Cauri\Client\Middleware\Project;
+use Vepay\Cauri\Resource\Payout;
 use Vepay\Gateway\Client\Request\Request;
 use Vepay\Gateway\Client\Validator\Validator;
 
@@ -20,16 +21,17 @@ class PayoutCreateRequest extends Request
      * Documentation: https://docs.pa.cauri.com/api/#create-payout
      *
      * @return Validator
+     * @throws \Exception
      */
     public function getParametersValidator(): Validator
     {
-        return (new Validator)
+        $validator = (new Validator)
             ->set('type', Validator::REQUIRED)
             ->set('amount', Validator::REQUIRED)
             ->set('currency', Validator::REQUIRED)
             ->set('description', Validator::REQUIRED)
             ->set('orderId', Validator::OPTIONAL)
-            ->set('account', Validator::OPTIONAL)
+            ->set('account', Validator::REQUIRED)
             ->set('cardExpirationDate', Validator::OPTIONAL)
             ->set('cardToken', Validator::OPTIONAL)
             ->set('phone', Validator::OPTIONAL)
@@ -47,6 +49,23 @@ class PayoutCreateRequest extends Request
             ->set('firstName', Validator::OPTIONAL);
         // project - will add in Middleware Project
         // signature - will generate and add in Middleware Signature
+
+        $response = (new Payout())->fetchPayoutParameters(
+            [
+                'type' => $this->parameters['type'],
+                'account' => $this->parameters['account'],
+                'currency' => $this->parameters['currency'],
+            ],
+            [
+                'public_key' => $this->getOptions()['public_key'],
+            ]
+        );
+
+        foreach ($response->getContent() as $parameter) {
+            $validator->set($parameter['name'], $parameter['required'] ? Validator::REQUIRED : Validator::OPTIONAL);
+        }
+
+        return $validator;
     }
 
     /**

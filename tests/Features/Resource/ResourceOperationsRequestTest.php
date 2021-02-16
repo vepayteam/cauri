@@ -402,13 +402,11 @@ class ResourceOperationsRequestTest extends TestCase
      * Documentation: https://docs.pa.cauri.com/api/#create-payout
      *
      * @depends testPayoutFetchAvailablePayoutTypes
-     * @depends testPayoutFetchPayoutParameters
      *
      * @param array $availablePayoutTypes
-     * @param array $payoutParameters
      * @throws Exception
      */
-    public function testPayoutCreate(array $availablePayoutTypes, array $payoutParameters): void
+    public function testPayoutCreate(array $availablePayoutTypes): void
     {
         $responseToken = (new Card())->tokenCreate(
             [
@@ -426,14 +424,24 @@ class ResourceOperationsRequestTest extends TestCase
             'type' => $availablePayoutTypes['types'][0]['id'],
             'amount' => 10,
             'currency' => 'RUB',
+            'account' => 553691,
             'description' => 'payout',
             'phone' => '77777777777',
+            'country' => 'RU',
+            'birthDate' => '15.02.1980',
+            'birthPlace' => 'Moscow',
+            'countryOfResidence' => 'RU',
+            'documentType' => 'id',
+            'documentIssuer' => 'test',
+            'documentSeries' => 'AD903876K098',
+            'documentNumber' => 'LKHJKJH768KJLHK897',
+            'documentIssuedAt' => '15.02.2020',
+            'documentValidUntil' => '15.02.2030',
+            'beneficiaryFirstName' => 'First Name',
+            'beneficiaryLastName' => 'Last Name',
+            'countryOfCitizenship' => 'RU',
             'cardToken' => $responseToken->getContent()['id'],
         ];
-
-        foreach ($payoutParameters as $parameter) {
-            $requestParameters[$parameter['name']] = $parameter['name'] . '_test';
-        }
 
         $response = (new Payout())->create(
             $requestParameters,

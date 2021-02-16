@@ -16,6 +16,6 @@ trait InitializationTrait
         ];
 
         Config::getInstance()->logger = Logger::class;
-        Config::getInstance()->logLevel = LoggerInterface::ERROR_LOG_LEVEL;
+        Config::getInstance()->logLevel = LoggerInterface::TRACE_LOG_LEVEL;
     }
 }
