@@ -408,23 +408,13 @@ class ResourceOperationsRequestTest extends TestCase
      */
     public function testPayoutCreate(array $availablePayoutTypes): void
     {
-        $responseToken = (new Card())->tokenCreate(
-            [
-                'number' => '4012001037141112',
-                'expiration_month' => '4',
-                'expiration_year' => '2022',
-                'security_code' => '123',
-            ],
-            [
-                'public_key' => Config::getInstance()->tests['public_key'],
-            ]
-        );
-
         $requestParameters = [
             'type' => $availablePayoutTypes['types'][0]['id'],
             'amount' => 10,
             'currency' => 'RUB',
-            'account' => 553691,
+            'account' => '4012001037141112',
+            'cardExpirationDate' => '04/22',
+            'cardHolder' => 'Firstname Lastname',
             'description' => 'payout',
             'phone' => '77777777777',
             'country' => 'RU',
@@ -440,7 +430,6 @@ class ResourceOperationsRequestTest extends TestCase
             'beneficiaryFirstName' => 'First Name',
             'beneficiaryLastName' => 'Last Name',
             'countryOfCitizenship' => 'RU',
-            'cardToken' => $responseToken->getContent()['id'],
         ];
 
         $response = (new Payout())->create(
