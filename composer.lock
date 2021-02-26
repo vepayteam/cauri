@@ -371,7 +371,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.vepay.cf/backend/commongateway.git",
-                "reference": "cbfecff4332bacaed220b83d0a5dbf598ef5b77d"
+                "reference": "77c9c588596cfe4a9397cd4481a55da5fbd8e05d"
             },
             "require": {
                 "ext-json": "*",
@@ -406,7 +406,7 @@
                 }
             ],
             "description": "PHP common gateway library for payment systems",
-            "time": "2021-02-09T06:57:35+00:00"
+            "time": "2021-02-16T12:21:53+00:00"
         }
     ],
     "packages-dev": [
@@ -2192,7 +2192,7 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.22.0",
+            "version": "v1.22.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
