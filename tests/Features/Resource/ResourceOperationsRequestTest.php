@@ -53,12 +53,14 @@ class ResourceOperationsRequestTest extends TestCase
      */
     public function testCardTokenCreate(): array
     {
+        $testCard = $this->getTestCard();
+
         $response = (new Card())->tokenCreate(
             [
-                'number' => $this->cardNumber,
-                'expiration_month' => '4',
-                'expiration_year' => '2022',
-                'security_code' => '123',
+                'number' => $testCard['number'],
+                'expiration_month' => $testCard['expiration_month'],
+                'expiration_year' => $testCard['expiration_year'],
+                'security_code' => $testCard['security_code'],
             ],
             [
                 'public_key' => Config::getInstance()->tests['public_key'],
@@ -148,6 +150,8 @@ class ResourceOperationsRequestTest extends TestCase
      */
     public function testPayinWithCardCreate(array $userResolve): array
     {
+        $testCard = $this->getTestCard();
+
         $response = (new Payin())->create(
             [
                 'user' => [
@@ -165,11 +169,11 @@ class ResourceOperationsRequestTest extends TestCase
                 '3ds' => 1,
                 'acs_return_url' => "https://example.com/acs_return/",
                 'card' => [
-                    'number' => $this->cardNumber,
-                    'expiration_month' => '4',
-                    'expiration_year' => '2022',
-                    'security_code' => '123',
-                    'holder' => 'Firstname Secondname',
+                    'number' => $testCard['number'],
+                    'expiration_month' => $testCard['expiration_month'],
+                    'expiration_year' => $testCard['expiration_year'],
+                    'security_code' => $testCard['security_code'],
+                    'holder' => $testCard['holder'],
                 ],
                 'attr_test' => 'attr',
             ],
@@ -408,13 +412,15 @@ class ResourceOperationsRequestTest extends TestCase
      */
     public function testPayoutCreate(array $availablePayoutTypes): void
     {
+        $testCard = $this->getTestCard();
+
         $requestParameters = [
             'type' => $availablePayoutTypes['types'][0]['id'],
             'amount' => 10,
             'currency' => 'RUB',
-            'account' => $this->cardNumber,
-            'cardExpirationDate' => '04/22',
-            'cardHolder' => 'Firstname Lastname',
+            'account' => $testCard['number'],
+            'cardExpirationDate' => $testCard['expiration_date'],
+            'cardHolder' => $testCard['holder'],
             'description' => 'payout',
             'phone' => '77777777777',
             'country' => 'RU',

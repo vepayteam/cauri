@@ -8,7 +8,17 @@ use Vepay\Gateway\Logger\LoggerInterface;
 
 trait InitializationTrait
 {
-    public string $cardNumber = '4012001037141112';
+    public function getTestCard(): array
+    {
+        return [
+            'number' => '4012001037141112',
+            'holder' => 'Firstname Lastname',
+            'expiration_date' => '04/24',
+            'expiration_month' => '4',
+            'expiration_year' => '2024',
+            'security_code' => '123',
+        ];
+    }
 
     public function setUp(): void
     {
