@@ -55,7 +55,7 @@ class ResourceOperationsRequestTest extends TestCase
     {
         $response = (new Card())->tokenCreate(
             [
-                'number' => '4012001037141112',
+                'number' => $this->cardNumber,
                 'expiration_month' => '4',
                 'expiration_year' => '2022',
                 'security_code' => '123',
@@ -165,7 +165,7 @@ class ResourceOperationsRequestTest extends TestCase
                 '3ds' => 1,
                 'acs_return_url' => "https://example.com/acs_return/",
                 'card' => [
-                    'number' => '4012001037141112',
+                    'number' => $this->cardNumber,
                     'expiration_month' => '4',
                     'expiration_year' => '2022',
                     'security_code' => '123',
@@ -412,7 +412,7 @@ class ResourceOperationsRequestTest extends TestCase
             'type' => $availablePayoutTypes['types'][0]['id'],
             'amount' => 10,
             'currency' => 'RUB',
-            'account' => '4012001037141112',
+            'account' => $this->cardNumber,
             'cardExpirationDate' => '04/22',
             'cardHolder' => 'Firstname Lastname',
             'description' => 'payout',

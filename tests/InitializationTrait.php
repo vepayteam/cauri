@@ -8,6 +8,8 @@ use Vepay\Gateway\Logger\LoggerInterface;
 
 trait InitializationTrait
 {
+    public string $cardNumber = '4012001037141112';
+
     public function setUp(): void
     {
         Config::getInstance()->tests = [
