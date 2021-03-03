@@ -12,8 +12,10 @@ use Vepay\Gateway\Client\Validator\Validator;
  */
 class PayoutFetchPayoutParametersRequest extends Request
 {
-    protected string $endpoint = 'v1/payout-parameters';
-    protected string $method = 'GET';
+    /** @var string  */
+    protected $endpoint = 'v1/payout-parameters';
+    /** @var string  */
+    protected $method = 'GET';
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#fetch-payout-parameters

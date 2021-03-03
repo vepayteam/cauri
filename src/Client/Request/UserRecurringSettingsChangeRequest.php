@@ -13,8 +13,10 @@ use Vepay\Gateway\Client\Validator\Validator;
  */
 class UserRecurringSettingsChangeRequest extends Request
 {
-    protected string $endpoint = 'v1/user/changeRecurring';
-    protected string $method = 'POST';
+    /** @var string  */
+    protected $endpoint = 'v1/user/changeRecurring';
+    /** @var string  */
+    protected $method = 'POST';
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#change-recurring-settings

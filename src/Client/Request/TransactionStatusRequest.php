@@ -16,8 +16,10 @@ class TransactionStatusRequest extends Request
 {
     use EndpointModificator;
 
-    protected string $endpoint = 'v1/transactions/{id}';
-    protected string $method = 'GET';
+    /** @var string  */
+    protected $endpoint = 'v1/transactions/{id}';
+    /** @var string  */
+    protected $method = 'GET';
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#get-transaction-by-id
