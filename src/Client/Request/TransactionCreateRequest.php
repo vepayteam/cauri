@@ -13,8 +13,10 @@ use Vepay\Gateway\Client\Validator\Validator;
  */
 class TransactionCreateRequest extends Request
 {
-    protected string $endpoint = 'v1/transaction/create';
-    protected string $method = 'POST';
+    /** @var string  */
+    protected $endpoint = 'v1/transaction/create';
+    /** @var string  */
+    protected $method = 'POST';
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#create-new-transaction

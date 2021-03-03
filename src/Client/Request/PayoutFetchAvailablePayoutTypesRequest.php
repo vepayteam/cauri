@@ -12,8 +12,10 @@ use Vepay\Gateway\Client\Validator\Validator;
  */
 class PayoutFetchAvailablePayoutTypesRequest extends Request
 {
-    protected string $endpoint = 'v1/payout-types';
-    protected string $method = 'GET';
+    /** @var string  */
+    protected $endpoint = 'v1/payout-types';
+    /** @var string  */
+    protected $method = 'GET';
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#fetch-available-payout-types

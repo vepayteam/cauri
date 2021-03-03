@@ -13,8 +13,10 @@ use Vepay\Gateway\Client\Validator\Validator;
  */
 class UserResolveRequest extends Request
 {
-    protected string $endpoint = 'v1/user/resolve';
-    protected string $method = 'POST';
+    /** @var string  */
+    protected $endpoint = 'v1/user/resolve';
+    /** @var string  */
+    protected $method = 'POST';
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#resolve-a-user

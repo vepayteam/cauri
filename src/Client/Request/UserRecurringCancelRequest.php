@@ -13,8 +13,10 @@ use Vepay\Gateway\Client\Validator\Validator;
  */
 class UserRecurringCancelRequest extends Request
 {
-    protected string $endpoint = 'v1/user/cancelRecurring';
-    protected string $method = 'POST';
+    /** @var string  */
+    protected $endpoint = 'v1/user/cancelRecurring';
+    /** @var string  */
+    protected $method = 'POST';
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#cancel-recurring

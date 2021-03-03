@@ -13,8 +13,10 @@ use Vepay\Gateway\Client\Validator\Validator;
  */
 class RefundCreateRequest extends Request
 {
-    protected string $endpoint = 'v1/transaction/reverse';
-    protected string $method = 'POST';
+    /** @var string  */
+    protected $endpoint = 'v1/transaction/reverse';
+    /** @var string  */
+    protected $method = 'POST';
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#reverse-a-payment
