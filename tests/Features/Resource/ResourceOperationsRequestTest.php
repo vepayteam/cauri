@@ -89,8 +89,8 @@ class ResourceOperationsRequestTest extends TestCase
             [
                 'user' => $userResolve['id'],
                 'card_token' => $cardToken['id'],
-                'price' => '5.99',
-                'currency' => 'USD',
+                'price' => '0.01',
+                'currency' => 'RUB',
                 'description' => 'My custom description.',
                 'recurring' => 1,
                 'recurring_interval' => 15,
@@ -123,8 +123,8 @@ class ResourceOperationsRequestTest extends TestCase
                 [
                     'user' => $userResolve['id'],
                     'interval' => '30',
-                    'price' => 3.50,
-                    'currency' => 'USD',
+                    'price' => 0.01,
+                    'currency' => 'RUB',
                 ],
                 [
                     'public_key' => Config::getInstance()->tests['public_key'],
@@ -226,7 +226,7 @@ class ResourceOperationsRequestTest extends TestCase
             $response = (new Card())->manualRecurring(
                 [
                     'user' => $userResolve['id'],
-                    'price' => 1.0,
+                    'price' => 0.01,
                     'currency' => 'RUB',
                     'order_id' => '12345',
                     'description' => 'My custom description.',
@@ -315,7 +315,7 @@ class ResourceOperationsRequestTest extends TestCase
             [
                 'user' => $userResolve['id'],
                 'payment_method' => 'web_money_wmz',
-                'price' => 5.99,
+                'price' => 1,
                 'currency' => 'USD',
                 'description' => 'Test',
                 'success_url' => 'https://example.com',
@@ -416,7 +416,7 @@ class ResourceOperationsRequestTest extends TestCase
 
         $requestParameters = [
             'type' => $availablePayoutTypes['types'][0]['id'],
-            'amount' => 10,
+            'amount' => 1,
             'currency' => 'RUB',
             'account' => $testCard['number'],
             'cardExpirationDate' => $testCard['expiration_date'],
