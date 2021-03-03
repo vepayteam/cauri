@@ -9,7 +9,7 @@ The are Packages and versions in file - composer.json
 ### Vendors
 execute: composer install
 
-### PHPUnits execute
+### PHPUnits
 execute: vendor/bin/phpunit
 
 ### Data and keys
