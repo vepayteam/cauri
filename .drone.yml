@@ -34,9 +34,9 @@ steps:
   image: registry.vepay.cf/apache-php
   commands:
   - apt-get update
-  - apt-get --no-install-recommends install -yq git
+  - apt-get --no-install-recommends install -yq git unzip
   - curl -s $$COMPOSER_INSTALLER_URL | php -- --install-dir=/tmp --filename=composer --version=$$COMPOSER_VERSION
-  - /tmp/composer install --no-dev
+  - /tmp/composer install
   environment:
     COMPOSER_INSTALLER_URL: https://raw.githubusercontent.com/composer/getcomposer.org/76a7060ccb93902cd7576b67264ad91c8a2700e2/web/installer
     COMPOSER_VERSION: 1.10.16
@@ -72,9 +72,9 @@ steps:
   image: registry.vepay.cf/apache-php
   commands:
   - apt-get update
-  - apt-get --no-install-recommends install -yq git
+  - apt-get --no-install-recommends install -yq git unzip
   - curl -s $$COMPOSER_INSTALLER_URL | php -- --install-dir=/tmp --filename=composer --version=$$COMPOSER_VERSION
-  - /tmp/composer install --no-dev
+  - /tmp/composer install
   environment:
     COMPOSER_INSTALLER_URL: https://raw.githubusercontent.com/composer/getcomposer.org/76a7060ccb93902cd7576b67264ad91c8a2700e2/web/installer
     COMPOSER_VERSION: 1.10.16
@@ -120,7 +120,7 @@ steps:
   image: registry.vepay.cf/apache-php
   commands:
   - apt-get update
-  - apt-get --no-install-recommends install -yq git
+  - apt-get --no-install-recommends install -yq git unzip
   - curl -s $$COMPOSER_INSTALLER_URL | php -- --install-dir=/tmp --filename=composer --version=$$COMPOSER_VERSION
   - /tmp/composer archive --dir=dist -f zip -n --file=${DRONE_REPO_NAME,,} ${DRONE_REPO_NAME,,} $$VERSION
   environment:
@@ -157,6 +157,6 @@ get:
 
 ---
 kind: signature
-hmac: 2673b23c24f5631c42d76f44d518c0683fe9010096d5ecbd3ff9a6893ba8c3f1
+hmac: f9f8adee2495d4d4585baee88d3588c2ac88a94ffbf2a2e8833e55511547861b
 
 ...
