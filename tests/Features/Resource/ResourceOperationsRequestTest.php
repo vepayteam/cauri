@@ -4,13 +4,70 @@ namespace Vepay\Cauri\Tests\Features\Resource;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
+use Vepay\Cauri\Resource\Card;
 use Vepay\Cauri\Resource\Payout;
+use Vepay\Cauri\Resource\User;
 use Vepay\Cauri\Tests\InitializationTrait;
 use Vepay\Gateway\Config;
 
 class ResourceOperationsRequestTest extends TestCase
 {
     use InitializationTrait;
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#resolve-a-user
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function testUserResolve(): array
+    {
+        $response = (new User())->resolve(
+            [
+                'identifier' => 1,
+                'display_name' => 'Example User',
+                'email' => 'user@example.com',
+                'phone' => '123456789',
+                'locale' => 'en',
+                'ip' => '127.0.0.1',
+            ],
+            [
+                'public_key' => Config::getInstance()->tests['public_key'],
+                'private_key' => Config::getInstance()->tests['private_key'],
+            ]
+        );
+
+        $this->assertEquals(200, $response->getStatus());
+
+        return ['id' => $response->getContent()['id']];
+    }
+
+    /**
+     * Documentation: https://docs.pa.cauri.com/api/#create-a-token
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function testCardTokenCreate(): array
+    {
+        $testCard = $this->getTestCard();
+
+        $response = (new Card())->tokenCreate(
+            [
+                'number' => $testCard['number'],
+                'expiration_month' => $testCard['expiration_month'],
+                'expiration_year' => $testCard['expiration_year'],
+                'security_code' => $testCard['security_code'],
+            ],
+            [
+                'public_key' => Config::getInstance()->tests['public_key'],
+            ]
+        );
+
+        $this->assertEquals(200, $response->getStatus());
+
+        return ['id' => $response->getContent()['id']];
+    }
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#fetch-available-payout-types
