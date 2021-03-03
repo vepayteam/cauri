@@ -6,12 +6,11 @@ https://docs.pa.cauri.com/api/
 ### Packages
 The are Packages and versions in file - composer.json
 
-### Vendors - install
-composer install
+### Vendors
+execute: composer install
 
-### Tests execute
-vendor/bin/phpunit
+### PHPUnits execute
+execute: vendor/bin/phpunit
 
 ### Data and keys
-
 tests/InitializationTrait.php
