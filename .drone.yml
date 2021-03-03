@@ -36,10 +36,13 @@ steps:
   - apt-get update
   - apt-get --no-install-recommends install -yq git unzip
   - curl -s $$COMPOSER_INSTALLER_URL | php -- --install-dir=/tmp --filename=composer --version=$$COMPOSER_VERSION
+  - /tmp/composer validate --strict
+  - /tmp/composer check-platform-reqs
   - /tmp/composer install
   environment:
     COMPOSER_INSTALLER_URL: https://raw.githubusercontent.com/composer/getcomposer.org/76a7060ccb93902cd7576b67264ad91c8a2700e2/web/installer
     COMPOSER_VERSION: 1.10.16
+    DEBIAN_FRONTEND: noninteractive
 
 - name: unit-functional-testing
   pull: always
@@ -74,10 +77,13 @@ steps:
   - apt-get update
   - apt-get --no-install-recommends install -yq git unzip
   - curl -s $$COMPOSER_INSTALLER_URL | php -- --install-dir=/tmp --filename=composer --version=$$COMPOSER_VERSION
+  - /tmp/composer validate --strict
+  - /tmp/composer check-platform-reqs
   - /tmp/composer install
   environment:
     COMPOSER_INSTALLER_URL: https://raw.githubusercontent.com/composer/getcomposer.org/76a7060ccb93902cd7576b67264ad91c8a2700e2/web/installer
     COMPOSER_VERSION: 1.10.16
+    DEBIAN_FRONTEND: noninteractive
 
 - name: unit-functional-testing
   pull: always
@@ -122,10 +128,11 @@ steps:
   - apt-get update
   - apt-get --no-install-recommends install -yq git unzip
   - curl -s $$COMPOSER_INSTALLER_URL | php -- --install-dir=/tmp --filename=composer --version=$$COMPOSER_VERSION
-  - /tmp/composer archive --dir=dist -f zip -n --file=${DRONE_REPO_NAME,,} ${DRONE_REPO_NAME,,} $$VERSION
+  - /tmp/composer archive --dir=dist -f zip -n --file=${DRONE_REPO_NAME,,}
   environment:
     COMPOSER_INSTALLER_URL: https://raw.githubusercontent.com/composer/getcomposer.org/76a7060ccb93902cd7576b67264ad91c8a2700e2/web/installer
     COMPOSER_VERSION: 1.10.16
+    DEBIAN_FRONTEND: noninteractive
 
 - name: gitea-release
   pull: always
@@ -157,6 +164,6 @@ get:
 
 ---
 kind: signature
-hmac: f9f8adee2495d4d4585baee88d3588c2ac88a94ffbf2a2e8833e55511547861b
+hmac: 2fb28dec9aea377efaec89b59cae22cc802bcb2d85744298f3c411080f97f421
 
 ...
