@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f64e68944847abb45f57e192b93c10a",
+    "content-hash": "1e0195ec35ead3d698b535c8cbb963fa",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -367,15 +367,15 @@
         },
         {
             "name": "vepay/commongateway",
-            "version": "dev-develop",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.vepay.cf/backend/commongateway.git",
-                "reference": "bda91b611aa7eec4d6c55f408e7b7885771f76a0"
+                "reference": "3fdbd8564c9cd650a4350661cebd96724586d08b"
             },
             "require": {
                 "ext-json": "*",
-                "guzzlehttp/guzzle": "^7.2.0",
+                "guzzlehttp/guzzle": "7.2.0",
                 "php": "^7.2"
             },
             "require-dev": {
@@ -406,7 +406,7 @@
                 }
             ],
             "description": "PHP common gateway library for payment systems",
-            "time": "2021-03-04T08:28:44+00:00"
+            "time": "2021-03-03T14:02:35+00:00"
         }
     ],
     "packages-dev": [
@@ -2066,9 +2066,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "vepay/commongateway": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
