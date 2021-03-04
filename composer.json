@@ -32,5 +32,7 @@
             "Vepay\\Cauri\\Tests\\": "tests/",
             "Vepay\\Gateway\\Tests\\": "vendor/vepay/commongateway/tests/"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
