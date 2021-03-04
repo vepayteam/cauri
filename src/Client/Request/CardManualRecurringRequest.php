@@ -13,8 +13,10 @@ use Vepay\Gateway\Client\Validator\Validator;
  */
 class CardManualRecurringRequest extends Request
 {
-    protected string $endpoint = 'v1/card/processRecurring';
-    protected string $method = 'POST';
+    /** @var string  */
+    protected $endpoint = 'v1/card/processRecurring';
+    /** @var string  */
+    protected $method = 'POST';
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#manual-recurring

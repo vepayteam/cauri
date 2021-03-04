@@ -14,8 +14,10 @@ use Vepay\Gateway\Client\Validator\Validator;
  */
 class PayoutCreateRequest extends Request
 {
-    protected string $endpoint = 'v1/payout';
-    protected string $method = 'POST';
+    /** @var string  */
+    protected $endpoint = 'v1/payout';
+    /** @var string  */
+    protected $method = 'POST';
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#create-payout

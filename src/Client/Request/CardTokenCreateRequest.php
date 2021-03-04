@@ -12,8 +12,10 @@ use Vepay\Gateway\Client\Validator\Validator;
  */
 class CardTokenCreateRequest extends Request
 {
-    protected string $endpoint = 'v1/card/getToken';
-    protected string $method = 'GET';
+    /** @var string  */
+    protected $endpoint = 'v1/card/getToken';
+    /** @var string  */
+    protected $method = 'GET';
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#create-a-token

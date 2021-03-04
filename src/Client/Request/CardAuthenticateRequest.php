@@ -13,8 +13,10 @@ use Vepay\Gateway\Client\Validator\Validator;
  */
 class CardAuthenticateRequest extends Request
 {
-    protected string $endpoint = 'v1/card/authenticate';
-    protected string $method = 'POST';
+    /** @var string  */
+    protected $endpoint = 'v1/card/authenticate';
+    /** @var string  */
+    protected $method = 'POST';
 
     /**
      * Documentation: https://docs.pa.cauri.com/api/#authenticate-a-card
