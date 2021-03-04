@@ -10,7 +10,7 @@ https://docs.pa.cauri.com/api/
 
 ```bash
 1. composer config repositories.vepay/commongateway vcs https://git.vepay.cf/backend/commongateway.git
-2. composer config repositories.vepay/cauri vcs http://git.vepay.cf/backend/cauri.git
+2. composer config repositories.vepay/cauri vcs https://git.vepay.cf/backend/cauri.git
 3. composer require vepay/cauri:dev-develop
 ```
 
