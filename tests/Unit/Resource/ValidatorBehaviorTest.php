@@ -203,14 +203,24 @@ class ValidatorBehaviorTest extends TestCase
      */
     public function testPayoutCreateValidation(): void
     {
+        $response = (new Payout())->fetchAvailablePayoutTypes(
+            [],
+            [
+                'public_key' => Config::getInstance()->tests['public_key'],
+            ]
+        );
+
         $this->expectException(ValidationException::class);
+        $testCard = $this->getTestCard();
 
         (new Payout())->create(
             [
-                'type' => 'test_type',
-                'amount' => 'test_amount',
+                'type' => $response->getContent()['types'][0]['id'],
+                'account' => $testCard['number'],
+                'currency' => 'RUB',
             ],
             [
+                'public_key' => Config::getInstance()->tests['public_key'],
                 'private_key' => Config::getInstance()->tests['private_key'],
             ]
         );
