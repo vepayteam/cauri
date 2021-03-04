@@ -12,12 +12,13 @@
         "php": "^7.2",
         "vepay/commongateway": "^1.0"
     },
-    "repositories": {
-        "vepay/commongateway": {
+    "repositories": [
+        {
+            "name": "vepay/commongateway",
             "type": "vcs",
             "url": "https://git.vepay.cf/backend/commongateway.git"
         }
-    },
+    ],
     "require-dev": {
         "phpunit/phpunit": "^8.0"
     },
