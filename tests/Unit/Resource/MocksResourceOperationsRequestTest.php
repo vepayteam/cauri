@@ -3,11 +3,13 @@
 namespace Vepay\Cauri\Tests\Unit\Resource;
 
 use PHPUnit\Framework\TestCase;
+use Vepay\Cauri\Resource\Balance;
 use Vepay\Cauri\Resource\Card;
 use Vepay\Cauri\Resource\Payout;
 use Vepay\Cauri\Resource\Refund;
 use Vepay\Cauri\Resource\Transaction;
 use Vepay\Cauri\Resource\User;
+use Vepay\Cauri\Tests\Mock\Response\MockBalanceResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockCardAuthenticateResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockCardManualRecurringResponse;
 use Vepay\Cauri\Tests\Mock\Response\MockCardTokenCreateResponse;
@@ -215,6 +217,18 @@ class MocksResourceOperationsRequestTest extends TestCase
         $response = new MockPayoutCreateResponse();
         $payout->mock('create', $response);
         $receivedResponse = $payout->create();
+
+        $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
+        $this->assertSame($response, $receivedResponse);
+        $this->assertEquals(200, $receivedResponse->getStatus());
+    }
+
+    public function testMockBalance(): void
+    {
+        $balance = new Balance();
+        $response = new MockBalanceResponse();
+        $balance->mock('getBalance', $response);
+        $receivedResponse = $balance->getBalance();
 
         $this->assertInstanceOf(ResponseInterface::class, $receivedResponse);
         $this->assertSame($response, $receivedResponse);
